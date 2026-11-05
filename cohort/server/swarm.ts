@@ -12,6 +12,7 @@ import {
   createDemoReport,
   sampleProfiles,
   type Audience,
+  type Debate,
   type Finding,
   type Objective,
   type Persona,
@@ -180,6 +181,36 @@ export function aggregate(reactions: Reaction[]) {
   };
 }
 
+// ---------------------------------------------------------------- debate
+
+export const DEBATE_MAX_AGENTS = 8;
+
+// 2-3 other panelists, always including one with a different verdict (the opposite one if possible).
+export function pickPeers(me: Reaction, all: Reaction[]): Reaction[] {
+  const others = all.filter((r) => r.personaId !== me.personaId);
+  const opposite = me.verdict === "yes" ? "no" : me.verdict === "no" ? "yes" : null;
+  const contrast =
+    others.find((r) => opposite && r.verdict === opposite) ??
+    others.find((r) => r.verdict !== me.verdict) ??
+    others[0];
+  if (!contrast) return [];
+  const rest = others.filter((r) => r !== contrast);
+  const start = all.indexOf(me);
+  const rotated = [...rest.slice(start % Math.max(1, rest.length)), ...rest.slice(0, start % Math.max(1, rest.length))];
+  return [contrast, ...rotated.slice(0, 2)];
+}
+
+function applyDebate(r: Reaction, reply: Omit<Debate, "changed" | "fromVerdict" | "fromScore"> & { verdict: Reaction["verdict"]; score: number }): Reaction {
+  const debate: Debate = {
+    replyTo: reply.replyTo,
+    text: reply.text,
+    changed: reply.verdict !== r.verdict,
+    fromVerdict: r.verdict,
+    fromScore: r.score,
+  };
+  return { ...r, verdict: reply.verdict, score: reply.score, debate };
+}
+
 // ---------------------------------------------------------------- live pipeline
 
 async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortSignal): Promise<void> {
@@ -241,7 +272,47 @@ async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortS
   if (reactions.length === 0) throw new Error("Every agent in the swarm failed");
 
   emit({ type: "stage", index: 2 });
-  const { score, breakdown } = aggregate(reactions);
+  let finalReactions = reactions;
+  if (k > DEBATE_MAX_AGENTS) {
+    emit({ type: "warning", message: `Panel debate skipped for ${k} agents (runs for panels of ${DEBATE_MAX_AGENTS} or fewer)` });
+  } else if (reactions.length > 1) {
+    const round1 = reactions;
+    finalReactions = await Promise.all(
+      round1.map(async (r) => {
+        const peers = pickPeers(r, round1);
+        const p = personas.find((x) => x.id === r.personaId)!;
+        try {
+          const raw = await grokJson(
+            env,
+            `You are ${p.name}, ${p.role}. ${p.context} Your attitude toward new products: ${p.attitude}. ` +
+              `You are in round 2 of a ${config.objective.toLowerCase()}: a panel debate. Stay in character, first person, direct. ` +
+              `Reply to ONE other panelist BY NAME. You may stay firm or change your mind if their argument convinces you. Reply with JSON only.`,
+            `${productBrief(config, null)}\n\nYour round 1 answer: verdict=${r.verdict} score=${r.score}, "${r.quote}"\n\nOther panelists said:\n` +
+              peers.map((q) => `- ${q.name} (${q.role}) verdict=${q.verdict}: "${q.quote}" Concern: ${q.concern}`).join("\n") +
+              `\n\nReturn {"replyTo":"exact name of the panelist you answer","text":"one or two sentences addressed to them","verdict":"yes|maybe|no (final)","score":0-100 (final)}`,
+            signal,
+          );
+          const replyTo = peers.find((q) => q.name === String(raw.replyTo))?.name ?? peers[0].name;
+          const verdictRaw = String(raw.verdict ?? r.verdict).toLowerCase();
+          const verdict = (["yes", "maybe", "no"].includes(verdictRaw) ? verdictRaw : r.verdict) as Reaction["verdict"];
+          const next = applyDebate(r, {
+            replyTo,
+            text: String(raw.text ?? "").slice(0, 280),
+            verdict,
+            score: Math.max(0, Math.min(100, Math.round(Number(raw.score) || r.score))),
+          });
+          emit({ type: "debate", personaId: r.personaId, replyTo, text: next.debate!.text, verdict: next.verdict, score: next.score, changed: next.debate!.changed });
+          return next;
+        } catch (e) {
+          if (!signal.aborted) emit({ type: "warning", message: `${r.name} skipped the debate (${(e as Error).message})` });
+          return r;
+        }
+      }),
+    );
+  }
+
+  emit({ type: "stage", index: 3 });
+  const { score, breakdown } = aggregate(finalReactions);
   let findings: Finding[];
   let summary = "";
   try {
@@ -249,10 +320,13 @@ async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortS
       env,
       "You are Cohort's lead researcher agent. You synthesize interviews from a swarm of synthetic customers into a short, actionable report for a product team. Weigh disagreement, name which personas raised each point, never invent data that is not in the interviews. Reply with JSON only.",
       `${productBrief(config, null)}\nStudy: ${config.objective}, audience: ${config.audience}\n\nInterviews:\n` +
-        reactions
+        finalReactions
           .map(
             (r) =>
-              `- ${r.name} (${r.role}) verdict=${r.verdict} score=${r.score}\n  quote: ${r.quote}\n  concern: ${r.concern}\n  delight: ${r.delight}`,
+              `- ${r.name} (${r.role}) final verdict=${r.verdict} score=${r.score}\n  quote: ${r.quote}\n  concern: ${r.concern}\n  delight: ${r.delight}` +
+              (r.debate
+                ? `\n  debate reply to ${r.debate.replyTo}: ${r.debate.text}${r.debate.changed ? ` (changed mind from ${r.debate.fromVerdict})` : ""}`
+                : ""),
           )
           .join("\n") +
         `\n\nReturn {"summary":"two sentences: overall reception and the main split in opinion","findings":[{"title":"imperative recommendation, max 8 words","detail":"one or two sentences with evidence from named personas","severity":"High|Medium|Low"}]} with exactly 3 findings ordered by severity.`,
@@ -269,7 +343,7 @@ async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortS
     summary = String(raw.summary ?? "").slice(0, 400);
   } catch (e) {
     emit({ type: "warning", message: `Synthesizer failed, using raw concerns (${(e as Error).message})` });
-    findings = reactions
+    findings = finalReactions
       .filter((r) => r.concern)
       .sort((a, b) => a.score - b.score)
       .slice(0, 3)
@@ -280,7 +354,6 @@ async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortS
       }));
   }
 
-  emit({ type: "stage", index: 3 });
   const report: Report = {
     config: { ...config },
     score,
@@ -288,10 +361,10 @@ async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortS
     completedAt: new Date().toISOString(),
     mode: "live",
     model: model(env),
-    agents: reactions.length,
+    agents: finalReactions.length,
     summary,
     breakdown,
-    voices: reactions,
+    voices: finalReactions,
   };
   emit({ type: "report", report });
 }
@@ -353,7 +426,31 @@ async function runMock(config: StudyConfig, emit: Emit, signal: AbortSignal): Pr
     emit({ type: "reaction", reaction: r });
   }
   emit({ type: "stage", index: 2 });
-  await sleep(400, signal);
+  let finalReactions = reactions;
+  if (k > DEBATE_MAX_AGENTS) {
+    emit({ type: "warning", message: `Panel debate skipped for ${k} agents (runs for panels of ${DEBATE_MAX_AGENTS} or fewer)` });
+    await sleep(200, signal);
+  } else {
+    const round1 = reactions;
+    let changedOne = false;
+    finalReactions = [];
+    for (const r of round1) {
+      await sleep(80, signal);
+      const peer = pickPeers(r, round1)[0];
+      let verdict = r.verdict;
+      let score = r.score;
+      let text = `${peer.name}, fair point, but my view hasn't moved: I still need proof it fits my workflow.`;
+      if (r.verdict === "no" && !changedOne) {
+        changedOne = true;
+        verdict = "maybe";
+        score = Math.min(100, r.score + 14);
+        text = `${peer.name}, you've got me thinking. I'd give it a short trial before ruling it out.`;
+      }
+      const next = applyDebate(r, { replyTo: peer.name, text, verdict, score });
+      finalReactions.push(next);
+      emit({ type: "debate", personaId: r.personaId, replyTo: peer.name, text, verdict, score, changed: next.debate!.changed });
+    }
+  }
   emit({ type: "stage", index: 3 });
   await sleep(300, signal);
   const demo = createDemoReport(config);
@@ -363,9 +460,9 @@ async function runMock(config: StudyConfig, emit: Emit, signal: AbortSignal): Pr
       ...demo,
       mode: "demo",
       model: "sample data",
-      agents: reactions.length,
-      breakdown: aggregate(reactions).breakdown,
-      voices: reactions,
+      agents: finalReactions.length,
+      breakdown: aggregate(finalReactions).breakdown,
+      voices: finalReactions,
     },
   });
 }

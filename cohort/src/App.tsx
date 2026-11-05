@@ -579,10 +579,10 @@ function Dashboard({
 }
 
 const runningSteps = [
-  "Building your sample audience",
-  "Simulating individual perspectives",
-  "Comparing responses across the swarm",
-  "Preparing your sample report",
+  "Recruiting your panel",
+  "Interviewing personas in parallel",
+  "Panel debate",
+  "Synthesizing findings",
 ];
 
 function Workspace({
@@ -611,6 +611,9 @@ function Workspace({
   const [error, setError] = useState("");
   const [personas, setPersonas] = useState<Persona[]>([]);
   const [reactions, setReactions] = useState<Reaction[]>([]);
+  const [debates, setDebates] = useState<
+    Record<string, Extract<SwarmEvent, { type: "debate" }>>
+  >({});
   const [notes, setNotes] = useState<string[]>([]);
   const [run, setRun] = useState<{ mode: "live" | "demo"; model: string; agents: number } | null>(null);
   const productInput = useRef<HTMLInputElement>(null);
@@ -640,6 +643,8 @@ function Workspace({
         setPersonas((list) => [...list, event.persona]);
       else if (event.type === "reaction")
         setReactions((list) => [...list, event.reaction]);
+      else if (event.type === "debate")
+        setDebates((d) => ({ ...d, [event.personaId]: event }));
       else if (event.type === "scout" || event.type === "warning")
         setNotes((list) => [
           ...list,
@@ -721,6 +726,7 @@ function Workspace({
     setStep(0);
     setPersonas([]);
     setReactions([]);
+    setDebates({});
     setNotes([]);
     setRun(null);
     setStage("running");
@@ -973,6 +979,8 @@ function Workspace({
               <ul className="swarm-feed" aria-label="Swarm participants">
                 {personas.map((p) => {
                   const r = reactions.find((x) => x.personaId === p.id);
+                  const d = debates[p.id];
+                  const verdict = d?.verdict ?? r?.verdict;
                   return (
                     <li key={p.id} className={r ? "answered" : ""}>
                       <span className={`avatar ${p.tone}`}>{p.initials}</span>
@@ -981,7 +989,17 @@ function Workspace({
                           {p.name} <small>{p.role}</small>
                         </strong>
                         {r ? (
-                          <q>{r.quote}</q>
+                          <>
+                            <q>{r.quote}</q>
+                            {d && (
+                              <span className="debate-reply">
+                                <b>↩ to {d.replyTo}</b> {d.text}
+                                {d.changed && (
+                                  <span className="mind-chip">changed mind</span>
+                                )}
+                              </span>
+                            )}
+                          </>
                         ) : (
                           <em>
                             <LoaderCircle size={12} className="spinning" aria-hidden="true" />{" "}
@@ -989,9 +1007,9 @@ function Workspace({
                           </em>
                         )}
                       </span>
-                      {r && (
-                        <span className={`verdict ${r.verdict}`}>
-                          {r.verdict === "yes" ? "Would use" : r.verdict === "no" ? "Wouldn’t" : "Maybe"}
+                      {r && verdict && (
+                        <span className={`verdict ${verdict}`}>
+                          {verdict === "yes" ? "Would use" : verdict === "no" ? "Wouldn’t" : "Maybe"}
                         </span>
                       )}
                     </li>
@@ -1085,9 +1103,11 @@ function Workspace({
                 </article>
               ))}
             </div>
-            {live && report.voices && report.voices.length > 0 && (
+            {report.voices && report.voices.length > 0 && (
               <>
-                <h3 className="findings-title">Voices from the swarm</h3>
+                <h3 className="findings-title">
+                  {live ? "Voices from the swarm" : "Sample voices (scripted)"}
+                </h3>
                 <ul className="swarm-feed voices">
                   {[...report.voices]
                     .sort((a, b) => a.score - b.score)
@@ -1100,7 +1120,15 @@ function Workspace({
                             {r.name} <small>{r.role} · {r.score}/100</small>
                           </strong>
                           <q>{r.quote}</q>
-                          {r.concern && <small>Concern: {r.concern}</small>}
+                          {r.debate && (
+                            <span className="debate-reply">
+                              <b>↩ to {r.debate.replyTo}</b> {r.debate.text}
+                              {r.debate.changed && (
+                                <span className="mind-chip">changed mind</span>
+                              )}
+                            </span>
+                          )}
+                          {r.concern && live && <small>Concern: {r.concern}</small>}
                         </span>
                         <span className={`verdict ${r.verdict}`}>
                           {r.verdict === "yes" ? "Would use" : r.verdict === "no" ? "Wouldn’t" : "Maybe"}

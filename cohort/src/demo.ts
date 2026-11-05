@@ -39,6 +39,15 @@ export type Reaction = {
   quote: string;
   concern: string;
   delight: string;
+  // Round 2: set when the persona answered another panelist. verdict/score are then post-debate.
+  debate?: Debate;
+};
+export type Debate = {
+  replyTo: string;
+  text: string;
+  changed: boolean;
+  fromVerdict: "yes" | "maybe" | "no";
+  fromScore: number;
 };
 export type Report = {
   config: StudyConfig;
@@ -58,6 +67,15 @@ export type SwarmEvent =
   | { type: "scout"; ok: boolean; detail: string }
   | { type: "persona"; persona: Persona }
   | { type: "reaction"; reaction: Reaction }
+  | {
+      type: "debate";
+      personaId: string;
+      replyTo: string;
+      text: string;
+      verdict: Reaction["verdict"];
+      score: number;
+      changed: boolean;
+    }
   | { type: "warning"; message: string }
   | { type: "error"; message: string }
   | { type: "report"; report: Report };

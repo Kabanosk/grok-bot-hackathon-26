@@ -2894,3 +2894,7 @@ select {
     margin-right: 16px;
   }
 }
+
+.debate-reply { display: block; margin-top: 6px; padding-left: 10px; border-left: 2px solid var(--line, #d9cdb8); font-size: 0.86em; line-height: 1.45; color: inherit; opacity: 0.9; }
+.debate-reply b { font-weight: 600; margin-right: 4px; }
+.mind-chip { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: #f3dfb4; color: #5a3d0a; font-size: 0.78em; font-weight: 600; white-space: nowrap; }
