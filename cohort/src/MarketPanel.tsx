@@ -146,7 +146,10 @@ export function useMarket() {
     let alive = true;
     const tick = async () => {
       try {
-        const res = await fetch("/api/market");
+        let res = await fetch("/api/market").catch(() => null);
+        // Static hosting (Vercel) has no /api: show the recorded Cohort Master run.
+        if (!res || !res.ok || !(res.headers.get("content-type") ?? "").includes("json"))
+          res = await fetch("/market-demo.json");
         if (!res.ok) throw new Error(String(res.status));
         const json = (await res.json()) as Market;
         if (alive) {
