@@ -7,122 +7,1064 @@
     "createdAt": "2026-11-05T20:40:00Z"
   },
   "segments": [
-    {"id": "s1", "name": "Students in big cities", "share": 7, "description": "Ages 18–24 studying in Warsaw, Kraków, Wrocław, Poznań, Tri-City; ~2M people, low income, mobile-first."},
-    {"id": "s2", "name": "Young professionals, metro", "share": 14, "description": "Ages 25–39 in cities over 500k (Warsaw, Kraków, Wrocław, Tri-City); ~4M people, above-median salaries."},
-    {"id": "s3", "name": "Families in mid-size towns", "share": 20, "description": "Ages 30–49 with children in towns of 50–300k; ~5.7M people, two incomes plus 800+ benefit."},
-    {"id": "s4", "name": "Rural households", "share": 18, "description": "Ages 25–59 in villages (~40% of Poles live in rural gminas); ~5.1M people, farm and commuter incomes."},
-    {"id": "s5", "name": "Pre-retirement 50–64", "share": 15, "description": "Ages 50–64 across all town sizes; ~4.3M people, stable jobs, saving for retirement, wary of fraud."},
-    {"id": "s6", "name": "Seniors 65–75", "share": 12, "description": "Ages 65–75 living on ZUS pensions; ~3.4M people, branch and cash habits, prime scam targets."},
-    {"id": "s7", "name": "Sole traders (JDG) and small business", "share": 6, "description": "~1.7M adults running a jednoosobowa działalność or micro firm; mix business and household money."},
-    {"id": "s8", "name": "Low-income and precarious workers", "share": 8, "description": "~2.3M adults on umowa zlecenie/o dzieło, temp agencies or gig apps; irregular income, BNPL and payday loans."}
+    {
+      "id": "s1",
+      "name": "Students in big cities",
+      "share": 7,
+      "description": "Ages 18–24 studying in Warsaw, Kraków, Wrocław, Poznań, Tri-City; ~2M people, low income, mobile-first."
+    },
+    {
+      "id": "s2",
+      "name": "Young professionals, metro",
+      "share": 14,
+      "description": "Ages 25–39 in cities over 500k (Warsaw, Kraków, Wrocław, Tri-City); ~4M people, above-median salaries."
+    },
+    {
+      "id": "s3",
+      "name": "Families in mid-size towns",
+      "share": 20,
+      "description": "Ages 30–49 with children in towns of 50–300k; ~5.7M people, two incomes plus 800+ benefit."
+    },
+    {
+      "id": "s4",
+      "name": "Rural households",
+      "share": 18,
+      "description": "Ages 25–59 in villages (~40% of Poles live in rural gminas); ~5.1M people, farm and commuter incomes."
+    },
+    {
+      "id": "s5",
+      "name": "Pre-retirement 50–64",
+      "share": 15,
+      "description": "Ages 50–64 across all town sizes; ~4.3M people, stable jobs, saving for retirement, wary of fraud."
+    },
+    {
+      "id": "s6",
+      "name": "Seniors 65–75",
+      "share": 12,
+      "description": "Ages 65–75 living on ZUS pensions; ~3.4M people, branch and cash habits, prime scam targets."
+    },
+    {
+      "id": "s7",
+      "name": "Sole traders (JDG) and small business",
+      "share": 6,
+      "description": "~1.7M adults running a jednoosobowa działalność or micro firm; mix business and household money."
+    },
+    {
+      "id": "s8",
+      "name": "Low-income and precarious workers",
+      "share": 8,
+      "description": "~2.3M adults on umowa zlecenie/o dzieło, temp agencies or gig apps; irregular income, BNPL and payday loans."
+    }
   ],
   "personas": [
-    {"id": "p1", "segmentId": "s1", "name": "Zuzanna K.", "age": 21, "city": "Kraków", "role": "Psychology student, part-time barista", "context": "Lives on ~2 400 zł/month from parents and café shifts, banks with Revolut and mBank, splits every bill by BLIK and loses track of Glovo orders.", "attitude": "enthusiast"},
-    {"id": "p2", "segmentId": "s1", "name": "Kacper W.", "age": 23, "city": "Wrocław", "role": "Computer science student, paid intern", "context": "Earns 4 500 zł net as an intern, banks with ING, tracks spending in a Google Sheet he updates every Sunday.", "attitude": "pragmatist"},
-    {"id": "p3", "segmentId": "s1", "name": "Oliwia N.", "age": 19, "city": "Poznań", "role": "First-year law student", "context": "Gets ~1 800 zł/month from parents and a scholarship, uses PKO BP's IKO app and checks her balance several times a day.", "attitude": "skeptic"},
-    {"id": "p4", "segmentId": "s1", "name": "Bartek S.", "age": 24, "city": "Gdańsk", "role": "Logistics student, weekend warehouse shifts", "context": "Makes ~3 200 zł/month, keeps salary in Santander and savings in Revolut vaults he sets up manually.", "attitude": "pragmatist"},
-
-    {"id": "p5", "segmentId": "s2", "name": "Marta L.", "age": 29, "city": "Warszawa", "role": "Product manager at a fintech", "context": "Earns ~13 000 zł net, splits money between mBank and Revolut, abandoned a YNAB trial because it couldn't import Polish banks.", "attitude": "enthusiast"},
-    {"id": "p6", "segmentId": "s2", "name": "Michał D.", "age": 33, "city": "Kraków", "role": "Software engineer on a B2B contract", "context": "Invoices ~18 000 zł/month, uses ING plus Revolut, invests in ETFs through XTB and already watches every subscription he pays.", "attitude": "pragmatist"},
-    {"id": "p7", "segmentId": "s2", "name": "Karolina P.", "age": 27, "city": "Wrocław", "role": "HR specialist", "context": "Earns 7 500 zł net at Millennium, saving for a flat deposit and keeps a spare account in Revolut for travel.", "attitude": "enthusiast"},
-    {"id": "p8", "segmentId": "s2", "name": "Paweł Z.", "age": 36, "city": "Gdynia", "role": "IT consultant, father of one", "context": "Earns ~15 000 zł net, banks with Pekao and relies on the PeoPay app's built-in spending categories.", "attitude": "skeptic"},
-
-    {"id": "p9", "segmentId": "s3", "name": "Agnieszka M.", "age": 38, "city": "Rzeszów", "role": "Accountant, mother of two", "context": "Household brings ~11 000 zł including 800+, banks with PKO BP and keeps the family budget in a paper notebook.", "attitude": "pragmatist"},
-    {"id": "p10", "segmentId": "s3", "name": "Tomasz B.", "age": 42, "city": "Kielce", "role": "Electrician", "context": "Household earns ~9 500 zł, banks with Pekao but runs most daily spending in cash and BLIK.", "attitude": "skeptic"},
-    {"id": "p11", "segmentId": "s3", "name": "Ewa J.", "age": 34, "city": "Olsztyn", "role": "Primary school teacher", "context": "Household earns ~8 800 zł, banks with Santander and dips into the overdraft almost every month before the 10th.", "attitude": "enthusiast"},
-    {"id": "p12", "segmentId": "s3", "name": "Łukasz G.", "age": 45, "city": "Bydgoszcz", "role": "Sales representative", "context": "Household earns ~12 500 zł, banks with mBank and watches a WIBOR-linked mortgage instalment of 3 900 zł.", "attitude": "pragmatist"},
-
-    {"id": "p13", "segmentId": "s4", "name": "Stanisław W.", "age": 52, "city": "Mordy (Mazowieckie)", "role": "Dairy farmer", "context": "Irregular income averaging ~6 000 zł/month plus EU direct payments, banks at the local Bank Spółdzielczy and pays suppliers by transfer at the branch.", "attitude": "skeptic"},
-    {"id": "p14", "segmentId": "s4", "name": "Katarzyna R.", "age": 31, "city": "Łącko (Małopolskie)", "role": "Remote customer-service agent", "context": "Earns ~5 200 zł net, banks with PKO BP and moves money to a savings account by hand when she remembers.", "attitude": "pragmatist"},
-    {"id": "p15", "segmentId": "s4", "name": "Grzegorz T.", "age": 44, "city": "Gołuchów (Wielkopolskie)", "role": "International truck driver", "context": "Earns ~7 000 zł plus diets, banks with Pekao, and his wife manages the household money in cash.", "attitude": "skeptic"},
-    {"id": "p16", "segmentId": "s4", "name": "Natalia S.", "age": 27, "city": "Zakrzówek (Lubelskie)", "role": "Nurse commuting to Lublin", "context": "Earns ~5 800 zł net, salary lands in PKO BP and she uses Revolut for online shopping and fuel.", "attitude": "enthusiast"},
-
-    {"id": "p17", "segmentId": "s5", "name": "Jolanta K.", "age": 58, "city": "Łódź", "role": "Office administrator", "context": "Earns ~6 200 zł net, banks with PKO BP and has received three fake 'blocked account' SMS messages this year.", "attitude": "skeptic"},
-    {"id": "p18", "segmentId": "s5", "name": "Andrzej N.", "age": 61, "city": "Katowice", "role": "Mine shift foreman", "context": "Earns ~9 000 zł net, banks with ING and pays into an IKE retirement account every month.", "attitude": "pragmatist"},
-    {"id": "p19", "segmentId": "s5", "name": "Bożena C.", "age": 55, "city": "Częstochowa", "role": "Grocery store manager", "context": "Earns ~5 500 zł net, banks with Millennium and quietly covers her adult son's loan repayments.", "attitude": "pragmatist"},
-    {"id": "p20", "segmentId": "s5", "name": "Krzysztof H.", "age": 63, "city": "Szczecin", "role": "Port engineer", "context": "Earns ~11 000 zł net, banks with mBank and has kept an Excel household ledger for 15 years.", "attitude": "enthusiast"},
-
-    {"id": "p21", "segmentId": "s6", "name": "Halina W.", "age": 71, "city": "Lublin", "role": "Retired teacher", "context": "Lives on a 3 400 zł pension, banks at a PKO BP branch and budgets with cash envelopes.", "attitude": "skeptic"},
-    {"id": "p22", "segmentId": "s6", "name": "Zbigniew P.", "age": 68, "city": "Radom", "role": "Retired railway worker", "context": "Lives on a 3 100 zł pension, banks with Pekao; his grandson installed the app but he only uses it to check the balance.", "attitude": "skeptic"},
-    {"id": "p23", "segmentId": "s6", "name": "Teresa M.", "age": 66, "city": "Toruń", "role": "Retired nurse", "context": "Lives on a 3 800 zł pension, banks with Santander and has learned BLIK to send pocket money to her grandchildren.", "attitude": "enthusiast"},
-    {"id": "p24", "segmentId": "s6", "name": "Ryszard O.", "age": 74, "city": "Zakopane", "role": "Retired guesthouse owner", "context": "Has ~5 500 zł/month from pension and room rentals, banks with Pekao and keeps paper receipts in a shoebox.", "attitude": "pragmatist"},
-
-    {"id": "p25", "segmentId": "s7", "name": "Piotr A.", "age": 41, "city": "Poznań", "role": "Owner of a car-detailing JDG", "context": "Turns over ~14 000 zł/month, uses mBank business and personal accounts and often pays home bills from the company account.", "attitude": "enthusiast"},
-    {"id": "p26", "segmentId": "s7", "name": "Magdalena F.", "age": 35, "city": "Warszawa", "role": "Freelance graphic designer on ryczałt", "context": "Earns ~10 000 zł/month, banks with ING and invoices through inFakt.", "attitude": "pragmatist"},
-    {"id": "p27", "segmentId": "s7", "name": "Robert K.", "age": 48, "city": "Białystok", "role": "Bakery owner with 6 employees", "context": "Runs business accounts at Pekao and Santander and leaves everything financial to his accountant.", "attitude": "skeptic"},
-    {"id": "p28", "segmentId": "s7", "name": "Anna Z.", "age": 30, "city": "Opole", "role": "Solo beautician, second year of JDG", "context": "Earns ~8 000 zł/month, banks with Millennium and is about to lose the reduced 'mały ZUS' contributions.", "attitude": "enthusiast"},
-
-    {"id": "p29", "segmentId": "s8", "name": "Damian L.", "age": 26, "city": "Wałbrzych", "role": "Temp-agency warehouse worker", "context": "Earns ~3 600 zł net on umowa zlecenie, uses Revolut and PKO BP and pays for gadgets with PayPo instalments.", "attitude": "pragmatist"},
-    {"id": "p30", "segmentId": "s8", "name": "Monika S.", "age": 39, "city": "Grudziądz", "role": "Supermarket cashier, single mother", "context": "Earns ~3 900 zł net plus 800+, banks with PKO BP and is two months behind on the electricity bill.", "attitude": "skeptic"},
-    {"id": "p31", "segmentId": "s8", "name": "Sebastian J.", "age": 22, "city": "Łódź", "role": "Food-delivery courier (Glovo, Uber Eats)", "context": "Makes 2 800–4 200 zł depending on the week, everything goes through Revolut, no savings buffer.", "attitude": "enthusiast"},
-    {"id": "p32", "segmentId": "s8", "name": "Irena B.", "age": 57, "city": "Elbląg", "role": "Office cleaner on umowa o dzieło", "context": "Earns ~3 200 zł, banks with Pekao and has part of her wages garnished by a komornik.", "attitude": "skeptic"}
+    {
+      "id": "p1",
+      "segmentId": "s1",
+      "name": "Zuzanna K.",
+      "age": 21,
+      "city": "Kraków",
+      "role": "Psychology student, part-time barista",
+      "context": "Lives on ~2 400 zł/month from parents and café shifts, banks with Revolut and mBank, splits every bill by BLIK and loses track of Glovo orders.",
+      "attitude": "enthusiast",
+      "region": "malopolskie"
+    },
+    {
+      "id": "p2",
+      "segmentId": "s1",
+      "name": "Kacper W.",
+      "age": 23,
+      "city": "Wrocław",
+      "role": "Computer science student, paid intern",
+      "context": "Earns 4 500 zł net as an intern, banks with ING, tracks spending in a Google Sheet he updates every Sunday.",
+      "attitude": "pragmatist",
+      "region": "dolnoslaskie"
+    },
+    {
+      "id": "p3",
+      "segmentId": "s1",
+      "name": "Oliwia N.",
+      "age": 19,
+      "city": "Poznań",
+      "role": "First-year law student",
+      "context": "Gets ~1 800 zł/month from parents and a scholarship, uses PKO BP's IKO app and checks her balance several times a day.",
+      "attitude": "skeptic",
+      "region": "wielkopolskie"
+    },
+    {
+      "id": "p4",
+      "segmentId": "s1",
+      "name": "Bartek S.",
+      "age": 24,
+      "city": "Gdańsk",
+      "role": "Logistics student, weekend warehouse shifts",
+      "context": "Makes ~3 200 zł/month, keeps salary in Santander and savings in Revolut vaults he sets up manually.",
+      "attitude": "pragmatist",
+      "region": "pomorskie"
+    },
+    {
+      "id": "p5",
+      "segmentId": "s2",
+      "name": "Marta L.",
+      "age": 29,
+      "city": "Warszawa",
+      "role": "Product manager at a fintech",
+      "context": "Earns ~13 000 zł net, splits money between mBank and Revolut, abandoned a YNAB trial because it couldn't import Polish banks.",
+      "attitude": "enthusiast",
+      "region": "mazowieckie"
+    },
+    {
+      "id": "p6",
+      "segmentId": "s2",
+      "name": "Michał D.",
+      "age": 33,
+      "city": "Kraków",
+      "role": "Software engineer on a B2B contract",
+      "context": "Invoices ~18 000 zł/month, uses ING plus Revolut, invests in ETFs through XTB and already watches every subscription he pays.",
+      "attitude": "pragmatist",
+      "region": "malopolskie"
+    },
+    {
+      "id": "p7",
+      "segmentId": "s2",
+      "name": "Karolina P.",
+      "age": 27,
+      "city": "Wrocław",
+      "role": "HR specialist",
+      "context": "Earns 7 500 zł net at Millennium, saving for a flat deposit and keeps a spare account in Revolut for travel.",
+      "attitude": "enthusiast",
+      "region": "dolnoslaskie"
+    },
+    {
+      "id": "p8",
+      "segmentId": "s2",
+      "name": "Paweł Z.",
+      "age": 36,
+      "city": "Gdynia",
+      "role": "IT consultant, father of one",
+      "context": "Earns ~15 000 zł net, banks with Pekao and relies on the PeoPay app's built-in spending categories.",
+      "attitude": "skeptic",
+      "region": "pomorskie"
+    },
+    {
+      "id": "p9",
+      "segmentId": "s3",
+      "name": "Agnieszka M.",
+      "age": 38,
+      "city": "Rzeszów",
+      "role": "Accountant, mother of two",
+      "context": "Household brings ~11 000 zł including 800+, banks with PKO BP and keeps the family budget in a paper notebook.",
+      "attitude": "pragmatist",
+      "region": "podkarpackie"
+    },
+    {
+      "id": "p10",
+      "segmentId": "s3",
+      "name": "Tomasz B.",
+      "age": 42,
+      "city": "Kielce",
+      "role": "Electrician",
+      "context": "Household earns ~9 500 zł, banks with Pekao but runs most daily spending in cash and BLIK.",
+      "attitude": "skeptic",
+      "region": "swietokrzyskie"
+    },
+    {
+      "id": "p11",
+      "segmentId": "s3",
+      "name": "Ewa J.",
+      "age": 34,
+      "city": "Olsztyn",
+      "role": "Primary school teacher",
+      "context": "Household earns ~8 800 zł, banks with Santander and dips into the overdraft almost every month before the 10th.",
+      "attitude": "enthusiast",
+      "region": "warminsko-mazurskie"
+    },
+    {
+      "id": "p12",
+      "segmentId": "s3",
+      "name": "Łukasz G.",
+      "age": 45,
+      "city": "Bydgoszcz",
+      "role": "Sales representative",
+      "context": "Household earns ~12 500 zł, banks with mBank and watches a WIBOR-linked mortgage instalment of 3 900 zł.",
+      "attitude": "pragmatist",
+      "region": "kujawsko-pomorskie"
+    },
+    {
+      "id": "p13",
+      "segmentId": "s4",
+      "name": "Stanisław W.",
+      "age": 52,
+      "city": "Mordy (Mazowieckie)",
+      "role": "Dairy farmer",
+      "context": "Irregular income averaging ~6 000 zł/month plus EU direct payments, banks at the local Bank Spółdzielczy and pays suppliers by transfer at the branch.",
+      "attitude": "skeptic",
+      "region": "mazowieckie"
+    },
+    {
+      "id": "p14",
+      "segmentId": "s4",
+      "name": "Katarzyna R.",
+      "age": 31,
+      "city": "Łącko (Małopolskie)",
+      "role": "Remote customer-service agent",
+      "context": "Earns ~5 200 zł net, banks with PKO BP and moves money to a savings account by hand when she remembers.",
+      "attitude": "pragmatist",
+      "region": "malopolskie"
+    },
+    {
+      "id": "p15",
+      "segmentId": "s4",
+      "name": "Grzegorz T.",
+      "age": 44,
+      "city": "Gołuchów (Wielkopolskie)",
+      "role": "International truck driver",
+      "context": "Earns ~7 000 zł plus diets, banks with Pekao, and his wife manages the household money in cash.",
+      "attitude": "skeptic",
+      "region": "wielkopolskie"
+    },
+    {
+      "id": "p16",
+      "segmentId": "s4",
+      "name": "Natalia S.",
+      "age": 27,
+      "city": "Zakrzówek (Lubelskie)",
+      "role": "Nurse commuting to Lublin",
+      "context": "Earns ~5 800 zł net, salary lands in PKO BP and she uses Revolut for online shopping and fuel.",
+      "attitude": "enthusiast",
+      "region": "lubelskie"
+    },
+    {
+      "id": "p17",
+      "segmentId": "s5",
+      "name": "Jolanta K.",
+      "age": 58,
+      "city": "Łódź",
+      "role": "Office administrator",
+      "context": "Earns ~6 200 zł net, banks with PKO BP and has received three fake 'blocked account' SMS messages this year.",
+      "attitude": "skeptic",
+      "region": "lodzkie"
+    },
+    {
+      "id": "p18",
+      "segmentId": "s5",
+      "name": "Andrzej N.",
+      "age": 61,
+      "city": "Katowice",
+      "role": "Mine shift foreman",
+      "context": "Earns ~9 000 zł net, banks with ING and pays into an IKE retirement account every month.",
+      "attitude": "pragmatist",
+      "region": "slaskie"
+    },
+    {
+      "id": "p19",
+      "segmentId": "s5",
+      "name": "Bożena C.",
+      "age": 55,
+      "city": "Częstochowa",
+      "role": "Grocery store manager",
+      "context": "Earns ~5 500 zł net, banks with Millennium and quietly covers her adult son's loan repayments.",
+      "attitude": "pragmatist",
+      "region": "slaskie"
+    },
+    {
+      "id": "p20",
+      "segmentId": "s5",
+      "name": "Krzysztof H.",
+      "age": 63,
+      "city": "Szczecin",
+      "role": "Port engineer",
+      "context": "Earns ~11 000 zł net, banks with mBank and has kept an Excel household ledger for 15 years.",
+      "attitude": "enthusiast",
+      "region": "zachodniopomorskie"
+    },
+    {
+      "id": "p21",
+      "segmentId": "s6",
+      "name": "Halina W.",
+      "age": 71,
+      "city": "Lublin",
+      "role": "Retired teacher",
+      "context": "Lives on a 3 400 zł pension, banks at a PKO BP branch and budgets with cash envelopes.",
+      "attitude": "skeptic",
+      "region": "lubelskie"
+    },
+    {
+      "id": "p22",
+      "segmentId": "s6",
+      "name": "Zbigniew P.",
+      "age": 68,
+      "city": "Radom",
+      "role": "Retired railway worker",
+      "context": "Lives on a 3 100 zł pension, banks with Pekao; his grandson installed the app but he only uses it to check the balance.",
+      "attitude": "skeptic",
+      "region": "mazowieckie"
+    },
+    {
+      "id": "p23",
+      "segmentId": "s6",
+      "name": "Teresa M.",
+      "age": 66,
+      "city": "Toruń",
+      "role": "Retired nurse",
+      "context": "Lives on a 3 800 zł pension, banks with Santander and has learned BLIK to send pocket money to her grandchildren.",
+      "attitude": "enthusiast",
+      "region": "kujawsko-pomorskie"
+    },
+    {
+      "id": "p24",
+      "segmentId": "s6",
+      "name": "Ryszard O.",
+      "age": 74,
+      "city": "Zakopane",
+      "role": "Retired guesthouse owner",
+      "context": "Has ~5 500 zł/month from pension and room rentals, banks with Pekao and keeps paper receipts in a shoebox.",
+      "attitude": "pragmatist",
+      "region": "malopolskie"
+    },
+    {
+      "id": "p25",
+      "segmentId": "s7",
+      "name": "Piotr A.",
+      "age": 41,
+      "city": "Poznań",
+      "role": "Owner of a car-detailing JDG",
+      "context": "Turns over ~14 000 zł/month, uses mBank business and personal accounts and often pays home bills from the company account.",
+      "attitude": "enthusiast",
+      "region": "wielkopolskie"
+    },
+    {
+      "id": "p26",
+      "segmentId": "s7",
+      "name": "Magdalena F.",
+      "age": 35,
+      "city": "Warszawa",
+      "role": "Freelance graphic designer on ryczałt",
+      "context": "Earns ~10 000 zł/month, banks with ING and invoices through inFakt.",
+      "attitude": "pragmatist",
+      "region": "mazowieckie"
+    },
+    {
+      "id": "p27",
+      "segmentId": "s7",
+      "name": "Robert K.",
+      "age": 48,
+      "city": "Białystok",
+      "role": "Bakery owner with 6 employees",
+      "context": "Runs business accounts at Pekao and Santander and leaves everything financial to his accountant.",
+      "attitude": "skeptic",
+      "region": "podlaskie"
+    },
+    {
+      "id": "p28",
+      "segmentId": "s7",
+      "name": "Anna Z.",
+      "age": 30,
+      "city": "Opole",
+      "role": "Solo beautician, second year of JDG",
+      "context": "Earns ~8 000 zł/month, banks with Millennium and is about to lose the reduced 'mały ZUS' contributions.",
+      "attitude": "enthusiast",
+      "region": "opolskie"
+    },
+    {
+      "id": "p29",
+      "segmentId": "s8",
+      "name": "Damian L.",
+      "age": 26,
+      "city": "Wałbrzych",
+      "role": "Temp-agency warehouse worker",
+      "context": "Earns ~3 600 zł net on umowa zlecenie, uses Revolut and PKO BP and pays for gadgets with PayPo instalments.",
+      "attitude": "pragmatist",
+      "region": "dolnoslaskie"
+    },
+    {
+      "id": "p30",
+      "segmentId": "s8",
+      "name": "Monika S.",
+      "age": 39,
+      "city": "Grudziądz",
+      "role": "Supermarket cashier, single mother",
+      "context": "Earns ~3 900 zł net plus 800+, banks with PKO BP and is two months behind on the electricity bill.",
+      "attitude": "skeptic",
+      "region": "kujawsko-pomorskie"
+    },
+    {
+      "id": "p31",
+      "segmentId": "s8",
+      "name": "Sebastian J.",
+      "age": 22,
+      "city": "Łódź",
+      "role": "Food-delivery courier (Glovo, Uber Eats)",
+      "context": "Makes 2 800–4 200 zł depending on the week, everything goes through Revolut, no savings buffer.",
+      "attitude": "enthusiast",
+      "region": "lodzkie"
+    },
+    {
+      "id": "p32",
+      "segmentId": "s8",
+      "name": "Irena B.",
+      "age": 57,
+      "city": "Elbląg",
+      "role": "Office cleaner on umowa o dzieło",
+      "context": "Earns ~3 200 zł, banks with Pekao and has part of her wages garnished by a komornik.",
+      "attitude": "skeptic",
+      "region": "warminsko-mazurskie"
+    }
   ],
   "reactions": [
-    {"personaId": "p1", "verdict": "yes", "score": 78, "quote": "If it tells me I spent 340 zł on Glovo this month before my Revolut hits zero, that's worth it. I'd pay, just not the full 19,99 zł on a student budget.", "concern": "No student discount; 19,99 zł is a third of her weekly food budget", "wtp": "9,99 zł/mo"},
-    {"personaId": "p2", "verdict": "maybe", "score": 58, "quote": "My Google Sheet already does categories, but I type every BLIK payment by hand. Auto-import from ING would save me an hour a week, so maybe at a student price.", "concern": "Wants a CSV export so he doesn't lose his data if he cancels", "wtp": "9,99 zł/mo"},
-    {"personaId": "p3", "verdict": "no", "score": 30, "quote": "IKO already shows me my balance and my parents top me up when I run low. Why would I give a new app access to my PKO account?", "concern": "Sees no problem to solve; uneasy about granting bank access", "wtp": "0 zł"},
-    {"personaId": "p4", "verdict": "maybe", "score": 52, "quote": "The overdraft warning is nice but I'd use the free tier. I'm not paying 240 zł a year to be told I buy too many energy drinks.", "concern": "Premium features don't feel essential at his income", "wtp": "0 zł (free tier)"},
-
-    {"personaId": "p5", "verdict": "yes", "score": 88, "quote": "Finally something that reads both mBank and Revolut in one view. 19,99 zł is less than one takeaway in Mokotów, I'd sign up today.", "concern": "Wants accurate categorisation of Revolut multi-currency transactions", "wtp": "19,99 zł/mo OK"},
-    {"personaId": "p6", "verdict": "maybe", "score": 64, "quote": "I'd pay if it also tracks my XTB portfolio and B2B tax reserve. Monthly 19,99 zł feels like another subscription; an annual plan around 150 zł would be easier.", "concern": "Subscription fatigue; wants annual billing and investment tracking", "wtp": "14,99 zł/mo (annual)"},
-    {"personaId": "p7", "verdict": "yes", "score": 82, "quote": "I'm saving for a flat deposit and keep losing 500 zł a month to small stuff. If it auto-moves money into savings at Millennium, 19,99 zł pays for itself.", "concern": "Needs savings suggestions to be concrete, not generic tips", "wtp": "19,99 zł/mo OK"},
-    {"personaId": "p8", "verdict": "no", "score": 35, "quote": "PeoPay already categorises my Pekao spending for free. I don't see what the AI adds that my bank doesn't.", "concern": "Overlap with free features in bank apps", "wtp": "0 zł"},
-
-    {"personaId": "p9", "verdict": "maybe", "score": 60, "quote": "My notebook works but school costs in September always surprise me. I'd try the free version with PKO BP and pay maybe 9,99 zł if it plans for those months.", "concern": "Wants a shared family view for her and her husband", "wtp": "9,99 zł/mo"},
-    {"personaId": "p10", "verdict": "no", "score": 28, "quote": "Half my money is cash from jobs. An app that only sees my Pekao account would tell me nonsense, and I'm not paying for nonsense.", "concern": "Cash income invisible to open banking", "wtp": "0 zł"},
-    {"personaId": "p11", "verdict": "yes", "score": 74, "quote": "I pay Santander overdraft interest almost every month before payday. A warning three days earlier would save me more than the subscription costs.", "concern": "19,99 zł is steep on a teacher's salary; would prefer 14,99 zł", "wtp": "14,99 zł/mo"},
-    {"personaId": "p12", "verdict": "maybe", "score": 55, "quote": "If it showed me what happens to our budget when WIBOR moves, I'd pay. Plain spending categories mBank already gives me.", "concern": "Wants mortgage and loan forecasting, not just categories", "wtp": "9,99 zł/mo"},
-
-    {"personaId": "p13", "verdict": "no", "score": 15, "quote": "My money is at the Bank Spółdzielczy in Mordy and milk payments come when they come. I doubt your app even connects to my bank.", "concern": "Cooperative banks may not be supported; seasonal income breaks monthly budgets", "wtp": "0 zł"},
-    {"personaId": "p14", "verdict": "maybe", "score": 50, "quote": "Automatic saving would help me, I always forget to move money in PKO. But 19,99 zł in Łącko is real money; for free I'd try it.", "concern": "Price relative to rural wages", "wtp": "0–9,99 zł/mo"},
-    {"personaId": "p15", "verdict": "no", "score": 22, "quote": "I'm on the road three weeks a month and my wife handles the cash. Connecting my Pekao to some app sounds like how people get robbed.", "concern": "Fear of fraud; household money is managed offline", "wtp": "0 zł"},
-    {"personaId": "p16", "verdict": "yes", "score": 70, "quote": "Between fuel to Lublin and Revolut shopping I never know where my 5 800 zł goes. I'd pay 9,99 zł, maybe more if it really finds savings.", "concern": "Needs both PKO BP and Revolut connected reliably", "wtp": "9,99 zł/mo"},
-
-    {"personaId": "p17", "verdict": "no", "score": 20, "quote": "Every week I get an SMS that my PKO account is blocked. Now an app wants me to log in to my bank through it? That is exactly what scammers ask for.", "concern": "Can't tell a legitimate open-banking consent from phishing", "wtp": "0 zł"},
-    {"personaId": "p18", "verdict": "maybe", "score": 48, "quote": "If it shows whether my IKE and savings at ING will last on a ZUS pension, that's useful. 9,99 zł is fine; 20 zł for charts is not.", "concern": "Wants retirement projections, not daily spending nags", "wtp": "9,99 zł/mo"},
-    {"personaId": "p19", "verdict": "maybe", "score": 45, "quote": "I'd like to see how much my son's loan really costs me each month. But I'd be embarrassed if the app showed my husband all of it.", "concern": "Privacy within the household; price", "wtp": "0–9,99 zł/mo"},
-    {"personaId": "p20", "verdict": "yes", "score": 66, "quote": "Fifteen years of Excel and I still type every mBank line by hand. If it imports and categorises properly, 19,99 zł is a fair price for my time.", "concern": "Wants to export history back to Excel", "wtp": "19,99 zł/mo OK"},
-
-    {"personaId": "p21", "verdict": "no", "score": 8, "quote": "My envelopes never get hacked. I go to the PKO branch on Krakowskie Przedmieście and the lady there helps me; I don't need artificial intelligence for 3 400 zł.", "concern": "Distrust of apps with bank access; no perceived need", "wtp": "0 zł"},
-    {"personaId": "p22", "verdict": "no", "score": 12, "quote": "My grandson set up the Pekao app and I only look at the balance. Paying 20 zł a month from a pension to be told I spent money on bread? No.", "concern": "Price versus pension; low digital confidence", "wtp": "0 zł"},
-    {"personaId": "p23", "verdict": "maybe", "score": 42, "quote": "I learned BLIK for my grandchildren, so I could learn this too. If my Santander adviser said it is safe, I would try the free version.", "concern": "Needs a trusted person or bank to vouch for safety", "wtp": "0 zł (9,99 zł if bank-endorsed)"},
-    {"personaId": "p24", "verdict": "no", "score": 25, "quote": "The guests pay me in cash and by transfer, I keep receipts in a box and my accountant sorts it out once a year. This is for young people.", "concern": "Mixed cash and rental income; sees app as irrelevant at his age", "wtp": "0 zł"},
-
-    {"personaId": "p25", "verdict": "yes", "score": 80, "quote": "I pay home bills from the mBank business account and then panic when ZUS and VAT are due. If it separates the two and reserves tax money, I'd pay 29,99 zł.", "concern": "Needs business-account support and tax reserve", "wtp": "29,99 zł/mo (business tier)"},
-    {"personaId": "p26", "verdict": "maybe", "score": 62, "quote": "inFakt handles my invoices, ING handles the rest. Connect the two and tell me what's really mine after ryczałt and ZUS, then 19,99 zł is reasonable.", "concern": "Wants integration with invoicing tools and KSeF", "wtp": "19,99 zł/mo with inFakt integration"},
-    {"personaId": "p27", "verdict": "no", "score": 25, "quote": "My accountant charges me 900 zł a month to worry about this. I'm not giving another company access to Pekao and Santander business accounts.", "concern": "Already outsourced; security of business accounts", "wtp": "0 zł"},
-    {"personaId": "p28", "verdict": "yes", "score": 72, "quote": "Mały ZUS ends next year and my contributions jump by over 1 000 zł. If it warns me and saves for it from my Millennium account, 19,99 zł is fine.", "concern": "Needs reminders tied to ZUS and tax deadlines", "wtp": "19,99 zł/mo OK"},
-
-    {"personaId": "p29", "verdict": "maybe", "score": 50, "quote": "Three PayPo instalments and I never know which one hits when. An early warning before I go below zero on PKO would help, but only if it's free.", "concern": "Can't afford a subscription; BNPL not visible via bank data", "wtp": "0 zł (free alerts)"},
-    {"personaId": "p30", "verdict": "no", "score": 30, "quote": "19,99 zł is a week of bread and milk for my kids. I know I'm short at the end of the month, I don't need an app to tell me.", "concern": "Price; app can't fix lack of income", "wtp": "0 zł"},
-    {"personaId": "p31", "verdict": "maybe", "score": 55, "quote": "My income changes every week on Glovo, so a monthly budget never fits. If it plans by week from my Revolut, I'd use the free version for sure.", "concern": "Irregular income; budgeting tools assume a monthly salary", "wtp": "0 zł (free tier)"},
-    {"personaId": "p32", "verdict": "no", "score": 18, "quote": "The komornik already takes part of my wages from Pekao. I don't want another company looking at my account and maybe selling my data.", "concern": "Data misuse fears; debt situation", "wtp": "0 zł"}
+    {
+      "personaId": "p1",
+      "verdict": "yes",
+      "score": 78,
+      "quote": "If it tells me I spent 340 zł on Glovo this month before my Revolut hits zero, that's worth it. I'd pay, just not the full 19,99 zł on a student budget.",
+      "concern": "No student discount; 19,99 zł is a third of her weekly food budget",
+      "wtp": "9,99 zł/mo"
+    },
+    {
+      "personaId": "p2",
+      "verdict": "maybe",
+      "score": 58,
+      "quote": "My Google Sheet already does categories, but I type every BLIK payment by hand. Auto-import from ING would save me an hour a week, so maybe at a student price.",
+      "concern": "Wants a CSV export so he doesn't lose his data if he cancels",
+      "wtp": "9,99 zł/mo"
+    },
+    {
+      "personaId": "p3",
+      "verdict": "no",
+      "score": 30,
+      "quote": "IKO already shows me my balance and my parents top me up when I run low. Why would I give a new app access to my PKO account?",
+      "concern": "Sees no problem to solve; uneasy about granting bank access",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p4",
+      "verdict": "maybe",
+      "score": 52,
+      "quote": "The overdraft warning is nice but I'd use the free tier. I'm not paying 240 zł a year to be told I buy too many energy drinks.",
+      "concern": "Premium features don't feel essential at his income",
+      "wtp": "0 zł (free tier)"
+    },
+    {
+      "personaId": "p5",
+      "verdict": "yes",
+      "score": 88,
+      "quote": "Finally something that reads both mBank and Revolut in one view. 19,99 zł is less than one takeaway in Mokotów, I'd sign up today.",
+      "concern": "Wants accurate categorisation of Revolut multi-currency transactions",
+      "wtp": "19,99 zł/mo OK"
+    },
+    {
+      "personaId": "p6",
+      "verdict": "maybe",
+      "score": 64,
+      "quote": "I'd pay if it also tracks my XTB portfolio and B2B tax reserve. Monthly 19,99 zł feels like another subscription; an annual plan around 150 zł would be easier.",
+      "concern": "Subscription fatigue; wants annual billing and investment tracking",
+      "wtp": "14,99 zł/mo (annual)"
+    },
+    {
+      "personaId": "p7",
+      "verdict": "yes",
+      "score": 82,
+      "quote": "I'm saving for a flat deposit and keep losing 500 zł a month to small stuff. If it auto-moves money into savings at Millennium, 19,99 zł pays for itself.",
+      "concern": "Needs savings suggestions to be concrete, not generic tips",
+      "wtp": "19,99 zł/mo OK"
+    },
+    {
+      "personaId": "p8",
+      "verdict": "no",
+      "score": 35,
+      "quote": "PeoPay already categorises my Pekao spending for free. I don't see what the AI adds that my bank doesn't.",
+      "concern": "Overlap with free features in bank apps",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p9",
+      "verdict": "maybe",
+      "score": 60,
+      "quote": "My notebook works but school costs in September always surprise me. I'd try the free version with PKO BP and pay maybe 9,99 zł if it plans for those months.",
+      "concern": "Wants a shared family view for her and her husband",
+      "wtp": "9,99 zł/mo"
+    },
+    {
+      "personaId": "p10",
+      "verdict": "no",
+      "score": 28,
+      "quote": "Half my money is cash from jobs. An app that only sees my Pekao account would tell me nonsense, and I'm not paying for nonsense.",
+      "concern": "Cash income invisible to open banking",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p11",
+      "verdict": "yes",
+      "score": 74,
+      "quote": "I pay Santander overdraft interest almost every month before payday. A warning three days earlier would save me more than the subscription costs.",
+      "concern": "19,99 zł is steep on a teacher's salary; would prefer 14,99 zł",
+      "wtp": "14,99 zł/mo"
+    },
+    {
+      "personaId": "p12",
+      "verdict": "maybe",
+      "score": 55,
+      "quote": "If it showed me what happens to our budget when WIBOR moves, I'd pay. Plain spending categories mBank already gives me.",
+      "concern": "Wants mortgage and loan forecasting, not just categories",
+      "wtp": "9,99 zł/mo"
+    },
+    {
+      "personaId": "p13",
+      "verdict": "no",
+      "score": 15,
+      "quote": "My money is at the Bank Spółdzielczy in Mordy and milk payments come when they come. I doubt your app even connects to my bank.",
+      "concern": "Cooperative banks may not be supported; seasonal income breaks monthly budgets",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p14",
+      "verdict": "maybe",
+      "score": 50,
+      "quote": "Automatic saving would help me, I always forget to move money in PKO. But 19,99 zł in Łącko is real money; for free I'd try it.",
+      "concern": "Price relative to rural wages",
+      "wtp": "0–9,99 zł/mo"
+    },
+    {
+      "personaId": "p15",
+      "verdict": "no",
+      "score": 22,
+      "quote": "I'm on the road three weeks a month and my wife handles the cash. Connecting my Pekao to some app sounds like how people get robbed.",
+      "concern": "Fear of fraud; household money is managed offline",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p16",
+      "verdict": "yes",
+      "score": 70,
+      "quote": "Between fuel to Lublin and Revolut shopping I never know where my 5 800 zł goes. I'd pay 9,99 zł, maybe more if it really finds savings.",
+      "concern": "Needs both PKO BP and Revolut connected reliably",
+      "wtp": "9,99 zł/mo"
+    },
+    {
+      "personaId": "p17",
+      "verdict": "no",
+      "score": 20,
+      "quote": "Every week I get an SMS that my PKO account is blocked. Now an app wants me to log in to my bank through it? That is exactly what scammers ask for.",
+      "concern": "Can't tell a legitimate open-banking consent from phishing",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p18",
+      "verdict": "maybe",
+      "score": 48,
+      "quote": "If it shows whether my IKE and savings at ING will last on a ZUS pension, that's useful. 9,99 zł is fine; 20 zł for charts is not.",
+      "concern": "Wants retirement projections, not daily spending nags",
+      "wtp": "9,99 zł/mo"
+    },
+    {
+      "personaId": "p19",
+      "verdict": "maybe",
+      "score": 45,
+      "quote": "I'd like to see how much my son's loan really costs me each month. But I'd be embarrassed if the app showed my husband all of it.",
+      "concern": "Privacy within the household; price",
+      "wtp": "0–9,99 zł/mo"
+    },
+    {
+      "personaId": "p20",
+      "verdict": "yes",
+      "score": 66,
+      "quote": "Fifteen years of Excel and I still type every mBank line by hand. If it imports and categorises properly, 19,99 zł is a fair price for my time.",
+      "concern": "Wants to export history back to Excel",
+      "wtp": "19,99 zł/mo OK"
+    },
+    {
+      "personaId": "p21",
+      "verdict": "no",
+      "score": 8,
+      "quote": "My envelopes never get hacked. I go to the PKO branch on Krakowskie Przedmieście and the lady there helps me; I don't need artificial intelligence for 3 400 zł.",
+      "concern": "Distrust of apps with bank access; no perceived need",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p22",
+      "verdict": "no",
+      "score": 12,
+      "quote": "My grandson set up the Pekao app and I only look at the balance. Paying 20 zł a month from a pension to be told I spent money on bread? No.",
+      "concern": "Price versus pension; low digital confidence",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p23",
+      "verdict": "maybe",
+      "score": 42,
+      "quote": "I learned BLIK for my grandchildren, so I could learn this too. If my Santander adviser said it is safe, I would try the free version.",
+      "concern": "Needs a trusted person or bank to vouch for safety",
+      "wtp": "0 zł (9,99 zł if bank-endorsed)"
+    },
+    {
+      "personaId": "p24",
+      "verdict": "no",
+      "score": 25,
+      "quote": "The guests pay me in cash and by transfer, I keep receipts in a box and my accountant sorts it out once a year. This is for young people.",
+      "concern": "Mixed cash and rental income; sees app as irrelevant at his age",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p25",
+      "verdict": "yes",
+      "score": 80,
+      "quote": "I pay home bills from the mBank business account and then panic when ZUS and VAT are due. If it separates the two and reserves tax money, I'd pay 29,99 zł.",
+      "concern": "Needs business-account support and tax reserve",
+      "wtp": "29,99 zł/mo (business tier)"
+    },
+    {
+      "personaId": "p26",
+      "verdict": "maybe",
+      "score": 62,
+      "quote": "inFakt handles my invoices, ING handles the rest. Connect the two and tell me what's really mine after ryczałt and ZUS, then 19,99 zł is reasonable.",
+      "concern": "Wants integration with invoicing tools and KSeF",
+      "wtp": "19,99 zł/mo with inFakt integration"
+    },
+    {
+      "personaId": "p27",
+      "verdict": "no",
+      "score": 25,
+      "quote": "My accountant charges me 900 zł a month to worry about this. I'm not giving another company access to Pekao and Santander business accounts.",
+      "concern": "Already outsourced; security of business accounts",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p28",
+      "verdict": "yes",
+      "score": 72,
+      "quote": "Mały ZUS ends next year and my contributions jump by over 1 000 zł. If it warns me and saves for it from my Millennium account, 19,99 zł is fine.",
+      "concern": "Needs reminders tied to ZUS and tax deadlines",
+      "wtp": "19,99 zł/mo OK"
+    },
+    {
+      "personaId": "p29",
+      "verdict": "maybe",
+      "score": 50,
+      "quote": "Three PayPo instalments and I never know which one hits when. An early warning before I go below zero on PKO would help, but only if it's free.",
+      "concern": "Can't afford a subscription; BNPL not visible via bank data",
+      "wtp": "0 zł (free alerts)"
+    },
+    {
+      "personaId": "p30",
+      "verdict": "no",
+      "score": 30,
+      "quote": "19,99 zł is a week of bread and milk for my kids. I know I'm short at the end of the month, I don't need an app to tell me.",
+      "concern": "Price; app can't fix lack of income",
+      "wtp": "0 zł"
+    },
+    {
+      "personaId": "p31",
+      "verdict": "maybe",
+      "score": 55,
+      "quote": "My income changes every week on Glovo, so a monthly budget never fits. If it plans by week from my Revolut, I'd use the free version for sure.",
+      "concern": "Irregular income; budgeting tools assume a monthly salary",
+      "wtp": "0 zł (free tier)"
+    },
+    {
+      "personaId": "p32",
+      "verdict": "no",
+      "score": 18,
+      "quote": "The komornik already takes part of my wages from Pekao. I don't want another company looking at my account and maybe selling my data.",
+      "concern": "Data misuse fears; debt situation",
+      "wtp": "0 zł"
+    }
   ],
   "debate": [
-    {"personaId": "p5", "replyTo": "p21", "text": "Halina, the app only reads your history through the official PSD2 consent your bank shows you; it cannot move a single złoty. Your envelopes can't warn you before the pension runs out.", "changed": false, "verdict": "yes"},
-    {"personaId": "p21", "replyTo": "p5", "text": "Marta, my bank told me never to log in anywhere except their own app. Until the lady at PKO tells me it's safe, I'm keeping my envelopes.", "changed": false, "verdict": "no"},
-    {"personaId": "p30", "replyTo": "p11", "text": "Ewa, if a warning three days before payday really saves the overdraft fees, I'd try it, but only the free version. Paying 19,99 zł to save 30 zł doesn't add up for me.", "changed": true, "verdict": "maybe"},
-    {"personaId": "p7", "replyTo": "p8", "text": "Paweł, PeoPay only sees Pekao. You said your wife banks at ING; Pocket CFO would show the whole household in one place, which no bank app does.", "changed": false, "verdict": "yes"},
-    {"personaId": "p8", "replyTo": "p7", "text": "Karolina, fair point, our joint budget lives in two banks and we argue about it every month. I'd test it at the free tier, maybe Premium if the family view works.", "changed": true, "verdict": "maybe"},
-    {"personaId": "p25", "replyTo": "p27", "text": "Robert, your accountant tells you what happened last month; this tells you before ZUS takes 1 700 zł next week. That's the part I'd pay for.", "changed": false, "verdict": "yes"},
-    {"personaId": "p20", "replyTo": "p17", "text": "Jolanta, real open-banking apps are registered with KNF and the login screen is your own PKO page, never a link in an SMS. I checked that before trying one.", "changed": false, "verdict": "yes"},
-    {"personaId": "p17", "replyTo": "p20", "text": "Krzysztof, if it's on the KNF register and only reads my data, I might try the free version. I'm still not paying until I've seen it for a few months.", "changed": true, "verdict": "maybe"}
+    {
+      "personaId": "p5",
+      "replyTo": "p21",
+      "text": "Halina, the app only reads your history through the official PSD2 consent your bank shows you; it cannot move a single złoty. Your envelopes can't warn you before the pension runs out.",
+      "changed": false,
+      "verdict": "yes"
+    },
+    {
+      "personaId": "p21",
+      "replyTo": "p5",
+      "text": "Marta, my bank told me never to log in anywhere except their own app. Until the lady at PKO tells me it's safe, I'm keeping my envelopes.",
+      "changed": false,
+      "verdict": "no"
+    },
+    {
+      "personaId": "p30",
+      "replyTo": "p11",
+      "text": "Ewa, if a warning three days before payday really saves the overdraft fees, I'd try it, but only the free version. Paying 19,99 zł to save 30 zł doesn't add up for me.",
+      "changed": true,
+      "verdict": "maybe"
+    },
+    {
+      "personaId": "p7",
+      "replyTo": "p8",
+      "text": "Paweł, PeoPay only sees Pekao. You said your wife banks at ING; Pocket CFO would show the whole household in one place, which no bank app does.",
+      "changed": false,
+      "verdict": "yes"
+    },
+    {
+      "personaId": "p8",
+      "replyTo": "p7",
+      "text": "Karolina, fair point, our joint budget lives in two banks and we argue about it every month. I'd test it at the free tier, maybe Premium if the family view works.",
+      "changed": true,
+      "verdict": "maybe"
+    },
+    {
+      "personaId": "p25",
+      "replyTo": "p27",
+      "text": "Robert, your accountant tells you what happened last month; this tells you before ZUS takes 1 700 zł next week. That's the part I'd pay for.",
+      "changed": false,
+      "verdict": "yes"
+    },
+    {
+      "personaId": "p20",
+      "replyTo": "p17",
+      "text": "Jolanta, real open-banking apps are registered with KNF and the login screen is your own PKO page, never a link in an SMS. I checked that before trying one.",
+      "changed": false,
+      "verdict": "yes"
+    },
+    {
+      "personaId": "p17",
+      "replyTo": "p20",
+      "text": "Krzysztof, if it's on the KNF register and only reads my data, I might try the free version. I'm still not paying until I've seen it for a few months.",
+      "changed": true,
+      "verdict": "maybe"
+    }
   ],
   "report": {
     "summary": "Pocket CFO has a real paying core: 8 of 32 personas would pay for Premium and 12 more are on the fence, with willingness to pay concentrated among metro young professionals and sole traders. Seniors, rural households and low-income workers mostly refuse, citing scam fears about connecting a bank and 19,99 zł being too much against their income.",
     "findings": [
-      {"title": "Keep overdraft alerts free for everyone", "detail": "Overdraft warnings were the most-cited value across segments: Ewa (s3) pays Santander overdraft interest monthly, Damian and Monika (s8) only engage with a free warning, and Monika moved from no to maybe in the debate once alerts were framed as free. Paywalling them loses the mass-market funnel.", "severity": "High"},
-      {"title": "Earn trust before asking for bank access", "detail": "0 of 4 seniors (s6) and only 1 of 4 pre-retirees (s5) said yes; Jolanta, Halina and Grzegorz all equate bank-login consent with SMS phishing. Jolanta only softened after Krzysztof explained KNF registration and the bank's own login page, so lead onboarding with KNF licensing and read-only messaging.", "severity": "High"},
-      {"title": "Launch Premium where 19,99 zł already clears", "detail": "Only s2 young professionals (Marta, Karolina) and s7 sole traders (Piotr, Anna) accept 19,99 zł; the median willingness to pay elsewhere is 9,99 zł, and Michał asks for an annual plan around 150 zł. Piotr would pay 29,99 zł for a JDG tier with ZUS/VAT reserves, while cash and cooperative-bank users (Tomasz, Stanisław) see little value.", "severity": "Medium"}
+      {
+        "title": "Keep overdraft alerts free for everyone",
+        "detail": "Overdraft warnings were the most-cited value across segments: Ewa (s3) pays Santander overdraft interest monthly, Damian and Monika (s8) only engage with a free warning, and Monika moved from no to maybe in the debate once alerts were framed as free. Paywalling them loses the mass-market funnel.",
+        "severity": "High"
+      },
+      {
+        "title": "Earn trust before asking for bank access",
+        "detail": "0 of 4 seniors (s6) and only 1 of 4 pre-retirees (s5) said yes; Jolanta, Halina and Grzegorz all equate bank-login consent with SMS phishing. Jolanta only softened after Krzysztof explained KNF registration and the bank's own login page, so lead onboarding with KNF licensing and read-only messaging.",
+        "severity": "High"
+      },
+      {
+        "title": "Launch Premium where 19,99 zł already clears",
+        "detail": "Only s2 young professionals (Marta, Karolina) and s7 sole traders (Piotr, Anna) accept 19,99 zł; the median willingness to pay elsewhere is 9,99 zł, and Michał asks for an annual plan around 150 zł. Piotr would pay 29,99 zł for a JDG tier with ZUS/VAT reserves, while cash and cooperative-bank users (Tomasz, Stanisław) see little value.",
+        "severity": "Medium"
+      }
     ],
     "recommendation": "Go: launch in metro young professionals and sole traders at 19,99 zł/month with a 149 zł/year annual plan and free overdraft alerts, add a 29,99 zł JDG tier next, and hold back on seniors and rural households until a bank-endorsed trust campaign is ready."
   },
   "log": [
-    {"at": "2026-11-05T20:40:00Z", "text": "Cohort Master: sized the market from GUS-style data: ~28.5M Polish adults aged 18–75, split by age, town size and income."},
-    {"at": "2026-11-05T20:40:01Z", "text": "Cohort Master: built 8 segments covering 100% of the market, from metro students to seniors on ZUS pensions."},
-    {"at": "2026-11-05T20:40:02Z", "text": "Cohort Master: recruited 32 personas (4 per segment) with real towns, incomes and banks, mixing enthusiasts, pragmatists and skeptics."},
-    {"at": "2026-11-05T20:40:03Z", "text": "Cohort Master: interviewed all 32 personas about Pocket CFO and the 19,99 zł/month Premium price: 8 yes, 12 maybe, 12 no."},
-    {"at": "2026-11-05T20:40:04Z", "text": "Cohort Master: ran a cross-segment debate of 8 exchanges; 3 personas changed their verdict."},
-    {"at": "2026-11-05T20:40:05Z", "text": "Cohort Master: synthesized the report: go, launch with metro professionals and sole traders, keep overdraft alerts free."}
+    {
+      "at": "2026-11-05T20:40:00Z",
+      "text": "Cohort Master: sized the market from GUS-style data: ~28.5M Polish adults aged 18–75, split by age, town size and income."
+    },
+    {
+      "at": "2026-11-05T20:40:01Z",
+      "text": "Cohort Master: built 8 segments covering 100% of the market, from metro students to seniors on ZUS pensions."
+    },
+    {
+      "at": "2026-11-05T20:40:01Z",
+      "text": "Cohort Master: mapped the 8 segments onto 16 voivodeships (population, urbanization, metro areas, age structure; GUS-based estimates) for a regional simulation."
+    },
+    {
+      "at": "2026-11-05T20:40:02Z",
+      "text": "Cohort Master: recruited 32 personas (4 per segment) with real towns, incomes and banks, mixing enthusiasts, pragmatists and skeptics."
+    },
+    {
+      "at": "2026-11-05T20:40:03Z",
+      "text": "Cohort Master: interviewed all 32 personas about Pocket CFO and the 19,99 zł/month Premium price: 8 yes, 12 maybe, 12 no."
+    },
+    {
+      "at": "2026-11-05T20:40:04Z",
+      "text": "Cohort Master: ran a cross-segment debate of 8 exchanges; 3 personas changed their verdict."
+    },
+    {
+      "at": "2026-11-05T20:40:05Z",
+      "text": "Cohort Master: synthesized the report: go, launch with metro professionals and sole traders, keep overdraft alerts free."
+    }
+  ],
+  "regions": [
+    {
+      "id": "mazowieckie",
+      "name": "Mazowieckie",
+      "population": 5.51,
+      "share": 14.6,
+      "capital": "Warszawa",
+      "urbanization": 64,
+      "mix": {
+        "s1": 10.5,
+        "s2": 22.9,
+        "s3": 17.6,
+        "s4": 13.6,
+        "s5": 12.5,
+        "s6": 9.9,
+        "s7": 6.3,
+        "s8": 6.7
+      }
+    },
+    {
+      "id": "slaskie",
+      "name": "Śląskie",
+      "population": 4.35,
+      "share": 11.5,
+      "capital": "Katowice",
+      "urbanization": 76,
+      "mix": {
+        "s1": 8.1,
+        "s2": 16.4,
+        "s3": 22.1,
+        "s4": 10.6,
+        "s5": 16.0,
+        "s6": 13.3,
+        "s7": 6.3,
+        "s8": 7.3
+      }
+    },
+    {
+      "id": "wielkopolskie",
+      "name": "Wielkopolskie",
+      "population": 3.48,
+      "share": 9.2,
+      "capital": "Poznań",
+      "urbanization": 54,
+      "mix": {
+        "s1": 7.5,
+        "s2": 14.9,
+        "s3": 19.2,
+        "s4": 20.4,
+        "s5": 13.5,
+        "s6": 10.2,
+        "s7": 6.1,
+        "s8": 8.2
+      }
+    },
+    {
+      "id": "malopolskie",
+      "name": "Małopolskie",
+      "population": 3.43,
+      "share": 9.1,
+      "capital": "Kraków",
+      "urbanization": 48,
+      "mix": {
+        "s1": 8.3,
+        "s2": 17.0,
+        "s3": 17.2,
+        "s4": 21.5,
+        "s5": 12.6,
+        "s6": 9.5,
+        "s7": 6.0,
+        "s8": 7.9
+      }
+    },
+    {
+      "id": "dolnoslaskie",
+      "name": "Dolnośląskie",
+      "population": 2.88,
+      "share": 7.6,
+      "capital": "Wrocław",
+      "urbanization": 68,
+      "mix": {
+        "s1": 8.5,
+        "s2": 17.4,
+        "s3": 20.3,
+        "s4": 13.6,
+        "s5": 14.8,
+        "s6": 11.9,
+        "s7": 6.2,
+        "s8": 7.3
+      }
+    },
+    {
+      "id": "lodzkie",
+      "name": "Łódzkie",
+      "population": 2.38,
+      "share": 6.3,
+      "capital": "Łódź",
+      "urbanization": 62,
+      "mix": {
+        "s1": 6.6,
+        "s2": 12.9,
+        "s3": 19.7,
+        "s4": 16.3,
+        "s5": 16.8,
+        "s6": 14.4,
+        "s7": 5.8,
+        "s8": 7.6
+      }
+    },
+    {
+      "id": "pomorskie",
+      "name": "Pomorskie",
+      "population": 2.36,
+      "share": 6.2,
+      "capital": "Gdańsk",
+      "urbanization": 63,
+      "mix": {
+        "s1": 8.3,
+        "s2": 16.7,
+        "s3": 20.7,
+        "s4": 16.6,
+        "s5": 13.4,
+        "s6": 10.0,
+        "s7": 6.4,
+        "s8": 7.9
+      }
+    },
+    {
+      "id": "podkarpackie",
+      "name": "Podkarpackie",
+      "population": 2.07,
+      "share": 5.5,
+      "capital": "Rzeszów",
+      "urbanization": 41,
+      "mix": {
+        "s1": 4.3,
+        "s2": 7.6,
+        "s3": 18.5,
+        "s4": 27.8,
+        "s5": 15.1,
+        "s6": 11.7,
+        "s7": 5.6,
+        "s8": 9.3
+      }
+    },
+    {
+      "id": "lubelskie",
+      "name": "Lubelskie",
+      "population": 2.03,
+      "share": 5.4,
+      "capital": "Lublin",
+      "urbanization": 46,
+      "mix": {
+        "s1": 4.9,
+        "s2": 8.9,
+        "s3": 18.6,
+        "s4": 24.6,
+        "s5": 15.8,
+        "s6": 12.8,
+        "s7": 5.6,
+        "s8": 8.8
+      }
+    },
+    {
+      "id": "kujawsko-pomorskie",
+      "name": "Kujawsko-Pomorskie",
+      "population": 2.0,
+      "share": 5.3,
+      "capital": "Bydgoszcz / Toruń",
+      "urbanization": 59,
+      "mix": {
+        "s1": 5.2,
+        "s2": 9.5,
+        "s3": 21.8,
+        "s4": 20.0,
+        "s5": 16.1,
+        "s6": 12.7,
+        "s7": 5.9,
+        "s8": 8.8
+      }
+    },
+    {
+      "id": "zachodniopomorskie",
+      "name": "Zachodniopomorskie",
+      "population": 1.64,
+      "share": 4.3,
+      "capital": "Szczecin",
+      "urbanization": 68,
+      "mix": {
+        "s1": 5.3,
+        "s2": 9.5,
+        "s3": 23.3,
+        "s4": 15.7,
+        "s5": 17.5,
+        "s6": 14.3,
+        "s7": 6.0,
+        "s8": 8.4
+      }
+    },
+    {
+      "id": "warminsko-mazurskie",
+      "name": "Warmińsko-Mazurskie",
+      "population": 1.38,
+      "share": 3.7,
+      "capital": "Olsztyn",
+      "urbanization": 59,
+      "mix": {
+        "s1": 4.0,
+        "s2": 6.7,
+        "s3": 23.2,
+        "s4": 21.2,
+        "s5": 16.7,
+        "s6": 13.1,
+        "s7": 5.9,
+        "s8": 9.3
+      }
+    },
+    {
+      "id": "swietokrzyskie",
+      "name": "Świętokrzyskie",
+      "population": 1.18,
+      "share": 3.1,
+      "capital": "Kielce",
+      "urbanization": 45,
+      "mix": {
+        "s1": 2.9,
+        "s2": 4.7,
+        "s3": 19.1,
+        "s4": 25.9,
+        "s5": 17.9,
+        "s6": 15.2,
+        "s7": 5.2,
+        "s8": 9.1
+      }
+    },
+    {
+      "id": "podlaskie",
+      "name": "Podlaskie",
+      "population": 1.15,
+      "share": 3.0,
+      "capital": "Białystok",
+      "urbanization": 61,
+      "mix": {
+        "s1": 3.9,
+        "s2": 6.6,
+        "s3": 22.9,
+        "s4": 19.6,
+        "s5": 17.8,
+        "s6": 14.5,
+        "s7": 5.7,
+        "s8": 9.0
+      }
+    },
+    {
+      "id": "lubuskie",
+      "name": "Lubuskie",
+      "population": 0.98,
+      "share": 2.6,
+      "capital": "Zielona Góra / Gorzów Wlkp.",
+      "urbanization": 64,
+      "mix": {
+        "s1": 3.3,
+        "s2": 5.3,
+        "s3": 24.7,
+        "s4": 19.2,
+        "s5": 18.0,
+        "s6": 14.3,
+        "s7": 5.9,
+        "s8": 9.4
+      }
+    },
+    {
+      "id": "opolskie",
+      "name": "Opolskie",
+      "population": 0.95,
+      "share": 2.5,
+      "capital": "Opole",
+      "urbanization": 52,
+      "mix": {
+        "s1": 3.0,
+        "s2": 4.8,
+        "s3": 20.7,
+        "s4": 23.2,
+        "s5": 18.4,
+        "s6": 15.6,
+        "s7": 5.3,
+        "s8": 9.0
+      }
+    }
   ]
 }

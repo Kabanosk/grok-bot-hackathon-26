@@ -10,6 +10,7 @@ type Obj = Record<string, unknown>;
 export type MarketState = {
   study: Obj | null;
   segments: Obj[];
+  regions: Obj[];
   personas: Obj[];
   reactions: Obj[];
   debate: Obj[];
@@ -20,6 +21,7 @@ export type MarketState = {
 const empty = (): MarketState => ({
   study: null,
   segments: [],
+  regions: [],
   personas: [],
   reactions: [],
   debate: [],
@@ -27,10 +29,11 @@ const empty = (): MarketState => ({
   log: [],
 });
 
-const LIST_KINDS = ["segments", "personas", "reactions", "debate"] as const;
+const LIST_KINDS = ["segments", "regions", "personas", "reactions", "debate"] as const;
 type ListKind = (typeof LIST_KINDS)[number];
 const KEY: Record<ListKind, string> = {
   segments: "id",
+  regions: "id",
   personas: "id",
   reactions: "personaId",
   debate: "",
@@ -124,12 +127,53 @@ export function stats(state: MarketState) {
     const no = part("no");
     adoption = { yes, maybe: Math.max(0, 100 - yes - no), no };
   }
+  // Regional simulation (post-stratification): each region's adoption is the
+  // segment-level adoption weighted by that region's segment mix.
+  const segRate = new Map(
+    bySegment.map((s) => {
+      const n = s.yes + s.maybe + s.no;
+      return [String(s.segmentId), n ? { yes: s.yes / n, maybe: s.maybe / n, no: s.no / n, score: s.score } : null];
+    }),
+  );
+  const byRegion = state.regions.map((r) => {
+    const mix = (r.mix && typeof r.mix === "object" ? r.mix : {}) as Record<string, number>;
+    let w = 0, yes = 0, maybe = 0, no = 0, score = 0, sw = 0;
+    for (const [segId, pct] of Object.entries(mix)) {
+      const rate = segRate.get(segId);
+      const weight = Number(pct) || 0;
+      if (!rate || weight <= 0) continue;
+      w += weight;
+      yes += weight * rate.yes;
+      maybe += weight * rate.maybe;
+      no += weight * rate.no;
+      if (rate.score !== null) {
+        score += weight * rate.score;
+        sw += weight;
+      }
+    }
+    const population = Number(r.population) || 0;
+    const y = w ? Math.round((yes / w) * 100) : 0;
+    const n = w ? Math.round((no / w) * 100) : 0;
+    return {
+      regionId: r.id,
+      name: r.name ?? r.id,
+      share: Number(r.share) || 0,
+      population,
+      yes: y,
+      maybe: w ? Math.max(0, 100 - y - n) : 0,
+      no: n,
+      score: sw ? Math.round(score / sw) : null,
+      buyers: Math.round(((population * y) / 100) * 10) / 10,
+      personas: state.personas.filter((p) => p.region === r.id).length,
+    };
+  });
   return {
     personas: state.personas.length,
     answered: state.reactions.length,
     weightedScore,
     adoption,
     bySegment: bySegment.map(({ share: _share, ...rest }) => rest),
+    byRegion,
   };
 }
 
