@@ -439,12 +439,12 @@ async function runMock(config: StudyConfig, emit: Emit, signal: AbortSignal): Pr
       const peer = pickPeers(r, round1)[0];
       let verdict = r.verdict;
       let score = r.score;
-      let text = `${peer.name}, fair point, but my view hasn't moved: I still need proof it fits my workflow.`;
+      let text = `Fair point, but my view hasn't moved: I still need proof it fits my workflow.`;
       if (r.verdict === "no" && !changedOne) {
         changedOne = true;
         verdict = "maybe";
         score = Math.min(100, r.score + 14);
-        text = `${peer.name}, you've got me thinking. I'd give it a short trial before ruling it out.`;
+        text = `You've got me thinking. I'd give it a short trial before ruling it out.`;
       }
       const next = applyDebate(r, { replyTo: peer.name, text, verdict, score });
       finalReactions.push(next);
