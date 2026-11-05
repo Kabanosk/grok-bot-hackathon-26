@@ -1,0 +1,492 @@
+:root {
+  color-scheme: light;
+  --bg: #fff;
+  --surface: #f5f7f9;
+  --surface-raised: #edf6f3;
+  --text: #132335;
+  --muted: #637184;
+  --subtle: #89959d;
+  --accent: #176d67;
+  --accent-hover: #10564f;
+  --on-accent: #fff;
+  --sage: #5f9a80;
+  --border: #dce3e8;
+  --border-strong: #c7d9d2;
+}
+body {
+  background: #fff;
+  color: #132335;
+}
+.site-header {
+  background: #fff;
+  border-color: #e6ecea;
+}
+.hero-light {
+  background: radial-gradient(ellipse, #176d6707, transparent 65%);
+}
+.logo > svg {
+  color: #132335;
+}
+.logo-period {
+  color: #176d67;
+}
+.hero h1 > span {
+  color: #176d67;
+}
+.announcement {
+  color: #5d7a71;
+  background: #f2f7f4;
+  border-color: #d9e8df;
+}
+.announcement-dot {
+  background: #176d67;
+}
+.announcement > svg {
+  color: #176d67;
+}
+.header-cta {
+  background: #176d67;
+  border-color: #176d67;
+  color: #fff;
+}
+.header-cta:hover {
+  background: #10564f;
+  color: #fff;
+}
+.button.amber {
+  background: #176d67;
+  color: #fff;
+  border-color: #176d67;
+  box-shadow: none;
+}
+.button.amber:hover {
+  background: #10564f;
+  border-color: #10564f;
+  box-shadow: none;
+}
+.button.ghost {
+  color: #4c6f63;
+  background: #fff;
+  border-color: #cfddd5;
+}
+.button.ghost:hover {
+  background: #edf6f3;
+}
+.hero-footnote {
+  color: #82968c;
+}
+.footnote-divider {
+  background: #d4e3da;
+}
+.tiny-swarm span {
+  background: #80a38e;
+}
+.product-window {
+  border-color: #cbdcd2;
+  background: #fff;
+  box-shadow:
+    0 25px 70px #13233508,
+    0 0 0 5px #f8faf9;
+}
+.app-sidebar {
+  background: #f6f9f7;
+  border-color: #e1e9e3;
+}
+.app-main {
+  background: #fff;
+}
+.app-breadcrumb {
+  border-color: #e6ede7;
+  color: #83978b;
+}
+.app-breadcrumb strong {
+  color: #3e6651;
+}
+.app-content {
+  background: #fff;
+}
+.workspace-icon {
+  background: #eaf3ec;
+  border-color: #d1e3d4;
+  color: #397751;
+}
+.workspace-icon > span {
+  color: #76a082;
+}
+.workspace-identity small,
+.sidebar-label,
+.app-heading p {
+  color: #88a18d;
+}
+.app-search {
+  background: #fff;
+  border-color: #dbe7dc;
+  color: #8aa58d;
+}
+.app-nav-item {
+  color: #819d80;
+}
+.app-nav-item.selected {
+  color: #176d67;
+  background: #e9f3ec;
+  border-color: #dceadd;
+}
+.app-nav-item:hover {
+  background: #eef5ed;
+  color: #176d67;
+}
+.nav-count {
+  border-color: #cfdfcc;
+}
+.tiny-eyebrow {
+  color: #93a58b;
+}
+.engine-card {
+  background: #eff6ec;
+  border-color: #d7e5ce;
+  color: #658451;
+}
+.engine-card small {
+  color: #93ab81;
+}
+.engine-icon {
+  background: #e2efdb;
+  border-color: #c8ddbc;
+  color: #5f8c45;
+}
+.workspace-user {
+  color: #78916b;
+}
+.user-avatar {
+  background: #e2edda;
+  color: #7b9864;
+}
+.preview-pill {
+  border-color: #cdddc1;
+  color: #8a9d74;
+}
+.demo-sidebar-note {
+  color: #9aae8c;
+}
+.stat {
+  background: #fbfcfa;
+  border-color: #dfe8d9;
+}
+.stat > span,
+.stat > span > svg {
+  color: #91a47e;
+}
+.stat > div {
+  color: #376834;
+}
+.stat small {
+  color: #98ab84;
+}
+.sage-text {
+  color: #7e9e60;
+}
+.swarm-card,
+.insight-card {
+  background: #fcfdfb;
+  border-color: #dfe8d5;
+}
+.panel-header {
+  color: #7c9a62;
+}
+.micro-tag {
+  color: #9cae86;
+  border-color: #dae4cd;
+}
+.swarm-caption {
+  border-color: #e4ebda;
+  color: #8da573;
+}
+.swarm-caption > span:last-child {
+  color: #a1b28e;
+}
+.insight-card h3 {
+  color: #496c34;
+}
+.insight-card p {
+  color: #92a579;
+}
+.insight-category {
+  color: #92a770;
+}
+.insight-people {
+  color: #9baf84;
+}
+.study-row {
+  border-color: #e7edde;
+}
+.study-row > span {
+  color: #91a878;
+}
+.study-row > span:first-child {
+  color: #6b8d4d;
+}
+.study-row.table-head {
+  color: #a2b48e;
+}
+.study-row .completed {
+  color: #88a865;
+}
+.table-tabs button {
+  color: #a0b58a;
+}
+.table-tabs button.active {
+  background: #ecf4e4;
+  border-color: #d7e5ca;
+  color: #7ca15b;
+}
+.study-icon {
+  background: #eaf2e1;
+  color: #8aa569;
+}
+.text-button {
+  color: #176d67;
+}
+.text-button:hover {
+  color: #10564f;
+}
+.swarm-orbits {
+  color: #bdcfa8;
+  opacity: 0.5;
+}
+.swarm-links {
+  opacity: 0.12;
+}
+.swarm circle[fill="#24251f"] {
+  fill: #eef5e6;
+  stroke: #b4c89b;
+}
+.swarm path[fill="#e8bd7c"] {
+  fill: #5d8842;
+}
+.swarm rect {
+  fill: #fafcf6;
+  stroke: #d9e5c9;
+}
+.swarm text {
+  fill: #83a268;
+}
+.swarm circle[fill="#e8bd7c"],
+.swarm circle[fill="#d8bc91"] {
+  fill: #82a85f;
+}
+.swarm circle[fill="#9caf91"] {
+  fill: #adc493;
+}
+.preview-container::before {
+  display: none;
+}
+.preview-label,
+.preview-caption {
+  color: #8da77f;
+}
+.preview-label > span:last-child {
+  color: #9eb28f;
+}
+.value-strip {
+  border-color: #e2e9db;
+}
+.value-strip > div > svg {
+  color: #99b27e;
+}
+.value-strip > div > span {
+  color: #a4b78c;
+}
+.value-strip strong {
+  color: #779b52;
+}
+.section-kicker {
+  color: #176d67;
+}
+.section-intro h2 span,
+.approach-copy h2 span,
+.closing-section h2 span {
+  color: #176d67;
+}
+.step-visual {
+  background: #f7faf4;
+  border-color: #dfe9d4;
+}
+.brief-line {
+  background: #fff;
+  border-color: #dce8ce;
+  color: #8ba973;
+}
+.brief-line > svg:first-child {
+  color: #9cb783;
+}
+.brief-question {
+  color: #7d9e60;
+}
+.small-icon {
+  background: #eaf3de;
+  border-color: #cddfb7;
+  color: #82a25b;
+}
+.brief-tag {
+  color: #a3bb85;
+}
+.persona-orbit-ring,
+.persona-orbit-ring::after {
+  border-color: #d6e4c5;
+}
+.orbit-center {
+  background: #edf6e3;
+  color: #83a859;
+  border-color: #d1e4b9;
+  box-shadow: none;
+}
+.audience-visual-label {
+  color: #9db784;
+}
+.mini-finding {
+  color: #8caa6d;
+  border-color: #e1ebd6;
+}
+.mini-check {
+  color: #a2bb85;
+  background: #f6faef;
+  border-color: #d6e7bf;
+}
+.finding-line {
+  background: #e2edce;
+}
+.mini-result {
+  color: #97b571;
+}
+.context-visual {
+  background: #f8fbf5;
+  border-color: #dce8cf;
+}
+.context-top > span:first-child {
+  color: #9cb480;
+}
+.context-inputs > span {
+  background: #fff;
+  border-color: #d9e7c7;
+  color: #98b27c;
+}
+.context-inputs > span > svg {
+  color: #afc591;
+}
+.context-engine {
+  background: #edf5e4;
+  border-color: #cddfb5;
+}
+.context-engine .logo {
+  color: #7f9f5d;
+}
+.context-engine .logo svg {
+  color: #7f9f5d;
+}
+.context-engine > span:nth-child(2) {
+  color: #a8bb8a;
+}
+.context-engine > svg {
+  color: #a3bd80;
+}
+.context-output {
+  background: #f1f8e6;
+  border-color: #d6e8ba;
+  color: #a0bc7c;
+}
+.context-note {
+  color: #adbf93;
+}
+.approach-points > div > span {
+  color: #a4b78b;
+}
+.approach-points strong {
+  color: #799c52;
+}
+.approach-points > div > svg {
+  color: #a4bd85;
+}
+.closing-section {
+  background: #f7faf3;
+  border-color: #dfe9d0;
+}
+.closing-orbit {
+  border-color: #eaf1de;
+  box-shadow: 0 0 0 35px #ecf3e21a;
+}
+.site-footer {
+  border-color: #dce6ce;
+  color: #a1b88a;
+}
+.site-footer .logo {
+  color: #132335;
+}
+.site-footer .logo svg {
+  color: #132335;
+}
+.profile-card,
+.source-card {
+  background: #fbfdf7;
+  border-color: #e0ead2;
+}
+.profile-card p,
+.source-card p {
+  color: #a3b98a;
+}
+.audience-summary p,
+.source-note {
+  color: #9bb17f;
+}
+.source-card h3 {
+  color: #8fa56f;
+}
+.avatar {
+  border-color: #f7fbef;
+  background: #e7f0d9;
+  color: #8eaa68;
+}
+.amber {
+  --tone-bg: #e9f2dd;
+  --tone-color: #93ad73;
+}
+.sage {
+  --tone-bg: #eef4e2;
+  --tone-color: #a2b681;
+}
+.rose {
+  --tone-bg: #f5f0df;
+  --tone-color: #b5a276;
+}
+.stone {
+  --tone-bg: #eef3e4;
+  --tone-color: #a9b98c;
+}
+.app-heading h2,
+.study-heading h3 {
+  color: #547c3e;
+}
+.context-connectors,
+.context-connectors > i,
+.context-output-line {
+  border-color: #cddfba;
+}
+.context-engine::before {
+  border-color: #cddfba;
+}
+.site-nav {
+  color: #637184;
+}
+.site-nav a:hover {
+  color: #176d67;
+}
+.mobile-menu {
+  color: #637184;
+}
+.site-nav.is-open {
+  background: #fff;
+}
+.button.secondary {
+  background: #f7faf3;
+  border-color: #dce7cf;
+  color: #8dab6d;
+}

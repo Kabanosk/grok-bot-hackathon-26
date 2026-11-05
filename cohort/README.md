@@ -1,100 +1,72 @@
 # Cohort
 
-**Know your users. Before you launch.**
+A customer-research workspace for exploring demand, pricing and product decisions. The app lives in `cohort/` within the root npm-workspace monorepo.
 
-Cohort points a team of Grok agents at your product page and returns a research readout in about a minute. A scout agent reads the landing page, a recruiter agent builds a diverse panel (skeptics included), persona agents are interviewed in parallel, argue with each other in a second round, and a lead-researcher agent turns the debate into three ranked findings that cite the personas by name.
+## Local workspace
 
-It is a pre-flight check. It tells you which questions to bring to your real customer interviews. It does not replace them, and every result is labeled as synthetic opinion.
+Run `npm ci` and `npm run dev` from the repository root. Open **http://127.0.0.1:5173/workspace**. Choose **Enter demo workspace** to use mock sign-in with any email address. This does not authenticate a real account. Sign-in lasts for the browser session; research and source documents are saved in browser local storage.
 
-Built at the Grok Bot Hackathon Wroclaw (multi-agent systems track).
+The default **Synthetic sandbox** is available immediately without credentials. Its data is deterministic and explicitly illustrative:
 
-## Run
+- 12,000 fictional customer profiles across 12 cities, six income bands, 12 occupation groups and three adoption attitudes.
+- Population visualization, demographic distributions, filters, search, paginated records and CSV export.
+- Concept, usability and pricing study configuration with 6, 12 or 24 independent perspectives.
+- Survey-question builder, two-variant A/B research, individual focus-group conversations and report export.
+- Pricing sensitivity, adjustable price and audience region, and computed demand/revenue curves over synthetic willingness-to-pay values.
+- Imported interview, feedback, survey and research documents in text, Markdown, CSV or JSON format.
+- Historical calibration from CSV columns `score,outcome`: adjustable acceptance/rejection thresholds, confusion matrix, false-positive/false-negative rates and abstention coverage. Labels must be 1 or 0. No error rate is claimed without imported labels.
 
-Requirements: Node 20.19 or newer (or 22.12+), an xAI API key for live mode (optional).
+Synthetic outputs are not measured customer behavior, real revenue forecasts, empirical conversion rates or evidence of predictive accuracy. The mock login and browser storage are intended for local hackathon use, not production account security.
 
-```bash
-npm ci
-cp .env.example .env     # then set XAI_API_KEY in .env
-npm run dev
-```
+## Visual system
 
-Run these from the repository root. The app opens at http://127.0.0.1:5173/. `GET /api/info` returns `{"live":true,"model":"..."}` when the key is loaded and `{"live":false,"model":"sample data"}` otherwise.
+The white-and-green palette matches the pitch at `docs/presentation/cohort/cohort-pitch-45s-en.pdf`, inspected along with its slide source:
 
-| Variable | Default | Meaning |
-|---|---|---|
-| `XAI_API_KEY` | none | xAI API key. Without it the app runs in mock mode. |
-| `XAI_MODEL` | `grok-4.7` | Model id sent to `https://api.x.ai/v1/chat/completions`. Pin it to an id your key accepts. |
-| `MOCK_LLM` | unset | `1` forces mock mode even when a key is set. |
+| Role | Color |
+| --- | --- |
+| Primary green | `#176D67` |
+| Text | `#132335` |
+| Muted text | `#637184` |
+| Borders | `#DCE3E8` |
+| Pale green | `#EDF6F3` |
+| Surface | `#F5F7F9` |
+| Canvas | White |
 
-The server reads `.env` from the repository root or from `cohort/`, and real environment variables override both. `.env.example` lists the three variables.
+The workspace keeps the logo in its sidebar navigation and centers the interface on tables, metrics, charts, source evidence and research activity. Typography is Geist. Layout takes inspiration from Linear; research workflows take inspiration from Auxos. UI/UX Pro Max supplied layout, focus, accessibility and streaming-feedback guidance; the supplied pitch is the authority for final colors.
 
-Stack: React, TypeScript, Vite, Geist, Lucide. The swarm runs as middleware on the Vite dev and preview server (`server/swarm.ts`), so there is no separate backend process. The root package declares npm workspaces; this product lives in `cohort/`.
+## Native Grok Bot connection
 
-## How it works
+The optional **Cloud Grok Bots** mode uses an actual user-configured Grok Bot/automation webhook and authenticated callbacks. It does not replace native Bots with direct xAI model calls.
 
-Open the workspace, enter a product name, an optional URL and a description, then choose what to learn (usability test, concept validation or pricing research), the audience, and the panel size (6, 8 or 12 Grok agents). The browser POSTs the study to `/api/study` and reads a stream of newline-delimited JSON events, so every step appears as it happens.
+1. Configure a cloud Bot coordinator or compatible automation that follows the incoming task instructions and posts the requested callback events. The Connection dialog provides setup instructions.
+2. Copy the saved routine endpoint and its credential. Current grok.com automations use a `whsec_` signing secret. The server signs the exact JSON body using Standard Webhooks HMAC-SHA256 and accepts HTTP 202 as task acceptance. Legacy Bearer routines are also supported.
+3. Provide a public HTTPS callback origin. If `cloudflared` is installed, `npm run dev:cloud` starts a temporary tunnel to the callback-only relay on port 5174 and serves the workspace on port 5173. Other paths on the relay return 404.
+4. Save the connection in the local app. Credentials stay in the local server process and are not returned to the client or saved to browser storage. Alternatively configure the server-only values listed in `.env.example`.
+5. Choose Cloud Grok Bots and submit an actual research brief. No routine is invoked merely by saving connection settings.
 
-```
-product URL ──> scout ──> recruiter ──> persona agents ×N (parallel) ──> panel debate ──> lead researcher ──> report
-```
+The coordinator instructions specify product inspection, source-backed market benchmarks, independent persona Bots on their cloud computers, activity/response reporting and an evidence-linked decision brief. Real benchmark definitions, source links, periods, sample sizes and gaps remain visible. Observed AI task completion is kept separate from observed human conversion. Weighted model appeal is not presented as a conversion probability.
 
-| Stage | Agent | What it does |
-|---|---|---|
-| 1 | Scout | Fetches the product URL on the server, strips markup, and keeps up to 3,000 characters of page text as shared context. |
-| 2 | Recruiter | One Grok call that returns the panel: name, role, situation and attitude (enthusiast, pragmatist, skeptic) for each persona. The prompt asks for roughly a third skeptics and varied seniority, budget, region and tools. |
-| 3 | Persona agents | One Grok call per persona, run in parallel. Each answers in character and returns a verdict (yes, maybe, no), a 0 to 100 score, a quote, a concern and a delight. |
-| 4 | Panel debate | Round 2 for panels of 8 agents or fewer. Each persona reads 2 to 3 other panelists' answers, always including one with a different verdict, replies to one of them by name, and may change its verdict. The reply and any change appear on its card. |
-| 5 | Lead researcher | Reads all interviews and replies, and returns a summary plus exactly three severity-ranked findings that name the personas behind each. |
+**Acceptance is not completion.** The app reports activity and final results only after valid authenticated callback events. It checks persona counts/IDs, completed or failed workers, market evidence and finding references. Failed workers remain explicit.
 
-The report shows the overall score (the mean of the personas' own 0 to 100 ratings), the would-use / maybe / no split, three findings, each panelist's voice, and a JSON download that records the model, the agent count and a synthetic-data provenance statement.
+Native cloud access still depends on the account's eligibility and privacy settings. No real cloud Bot study has been completed or verified in this implementation session. The supplied account was blocked by Legacy Privacy Mode, and no irreversible privacy setting was changed. A valid Cursor API key alone is not a Grok automation signing secret. The default synthetic workspace remains usable independently.
 
-Failure handling: a persona that times out or errors is dropped and the rest continue; if the recruiter fails it falls back to a sample panel with a visible warning; if the debate reply fails for a persona, its round-1 verdict stands; if the synthesizer fails, the report uses the raw concerns. Each Grok call times out after 60 seconds, and the scout after 6.
+The server's callback jobs and credentials last until restart. Completed reports also save to the browser that receives them. This is a local integration bridge, not a production deployment or verified end-to-end native swarm. Do not serve the Vite development server publicly.
 
-### Live and mock mode
+## Source structure
 
-- **Live** (key present, `MOCK_LLM` not `1`): every agent is a real call to xAI. The workspace header reads `LIVE · <model>` and the progress line shows how many of the N agents answered.
-- **Mock** (no key, or `MOCK_LLM=1`): the same event stream is replayed from deterministic sample data, including a sample debate, so the UI and demo flow run offline. The badge reads "Sample data". The findings in mock mode are prewritten and do not assess the product you typed.
+- `src/research/ResearchWorkspace.tsx`: workspace, mock login, research, conversations and source library.
+- `src/research/PopulationExplorer.tsx`, `PriceLab.tsx`, `Calibration.tsx`: data views.
+- `src/research/contracts.ts`: shared request, event and report contracts.
+- `src/research/synthetic.ts`: deterministic sample population and responses.
+- `server/api.ts`: local configuration, webhook dispatch and callback processing.
+- `server/protocol.ts`: operational instructions for the real cloud coordinator.
+- `server/webhook-signing.ts`: Standard Webhooks request signing.
+- `scripts/dev-cloud.mjs`: local development with a callback-only tunnel.
 
-Labels always show the true agent count (for example "8 Grok agents"). Cohort does not extrapolate the panel to a larger headcount.
+Validation for this change is `npm run build`, which includes strict TypeScript compilation. Automated test execution was intentionally omitted at the user's request; CI builds the app only. The existing test files cover the earlier modal demo and were not used to validate this new workspace.
 
-## Limitations
+Protocol references: [Grok automation webhook signing](https://docs.x.ai/grok/automations/webhooks), [native Grok Bot routines](https://cursor.com/help/grok-bot/routines), [Grok Bot cloud computers](https://docs.x.ai/grok-bot/computer-and-apps).
 
-- Synthetic opinions. The personas are Grok-generated hypotheses, not people. The recruiter prompt sets the skeptic share, so the number of "no" votes reflects who is in the room as well as the product. Scores are LLM self-ratings with no calibration, and repeated runs differ.
-- Landing text only. Agents read the stripped text of the page (up to about 2,000 characters reach each persona prompt). They never see the UI or click anything, so this tests first impressions of the pitch and page, not task-based usability.
-- Client-rendered pages (single-page apps) return almost no text to a plain fetch. Use a server-rendered landing page.
-- The scout fetches any http(s) URL from the server and passes the page text into the prompts. There is no SSRF filter or prompt-injection hardening.
-- Not validated against real user research. We have not measured agreement with real interview data or run-to-run stability.
-- Roadmap, not built: grounding personas in live X posts through xAI's X search tool, personas drawn from real interview notes, and a browser-driving agent for task-based testing.
-- No accounts, persistence or authentication. Closing the page discards the workspace state.
+## Cohort Master (Grok Bot)
 
-## Judging criteria
-
-| Criterion | Where to look |
-|---|---|
-| Working Prototype | `npm run dev` runs end to end in live and mock mode; Playwright covers the setup-to-report journey, the streaming API (including the debate) and responsive layouts. |
-| Technical Complexity & Integration | Five agent roles with shared product context, parallel fan-out, an agent-to-agent debate round, NDJSON streaming, per-agent failure handling, and real-world data from the fetched landing page (`server/swarm.ts`). |
-| Innovation & Creativity | A focus group instead of a survey: personas answer each other and can change their minds, and the output is the next question to ask real users. |
-| Real-World Impact | Pre-launch validation is slow and costly for every product team; Cohort gives a founder with a URL a first read in about a minute. Labeled synthetic, positioned as a pre-filter. |
-| Theme Alignment | Multi-agent track: specialised agents that divide the work, debate each other's answers and check each other's output toward one shared report. |
-
-## Visual direction
-
-The compact layouts, restrained typography, and detailed product preview take inspiration from [Linear](https://linear.app/). Branding and interface are original.
-
-Used the [UI/UX Pro Max skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) to query design-system, color, modal focus, and React guidance. Its luxury palette supplied a verified stone-and-gold reference. That reference was adapted to the requested dark enterprise direction; the skill's generic blue SaaS recommendation was overridden by the brief.
-
-| Token      | Color     | Purpose                    |
-| ---------- | --------- | -------------------------- |
-| Background | `#11130F` | Warm charcoal canvas       |
-| Surface    | `#1B1D16` | Olive charcoal panels      |
-| Text       | `#E9E9DE` | Warm neutral text          |
-| Muted      | `#A7AB99` | Supporting text            |
-| Accent     | `#E8BD7C` | Amber actions and identity |
-| On accent  | `#292217` | Dark button text           |
-| Sage       | `#A1B58A` | Completion and status      |
-
-Global semantic colors are in `src/tokens.css`. Illustrations and fine borders use tonal variations in the stylesheet. The interface uses no blue-and-white theme, stock customer logos, or unsupported predictive-accuracy claims.
-
-## Checks
-
-From the root: `npm run build`, `npm run typecheck`, and `npm run test:e2e`. An API check covers the streamed swarm (personas, reactions, debate, report) in mock mode. Browser checks cover the primary demo journey, report export, workspace navigation, mobile navigation, and horizontal overflow at 375/768/1024/1440px.
+Grok Bot runs as the "Cohort Master" bot (instructions: [`COHORT_MASTER.md`](./COHORT_MASTER.md)). Asked to test a product on a market, it splits the market into 8 segments, simulates adoption in all 16 Polish voivodeships, recruits and interviews 32 personas, runs a cross-segment debate and writes a go/no-go report. Each step is pushed with the `cohort` CLI (`node cohort/bin/cohort.mjs`) to `/api/market` and rendered live at `/#panel`. A recorded run (`server/seed-poland.json`) loads with `node cohort/bin/cohort.mjs load cohort/server/seed-poland.json`; static hosting shows it from `public/market-demo.json`.

@@ -1,19 +1,15 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowDown,
-  ArrowDownLeft,
   ArrowRight,
   ArrowUpRight,
   AudioLines,
   BarChart3,
   Check,
   CheckCheck,
-  ChevronDown,
-  CircleHelp,
   CirclePlay,
   Command,
   Database,
-  Download,
   FileText,
   FlaskConical,
   GitBranch,
@@ -21,7 +17,6 @@ import {
   Globe2,
   Layers3,
   LayoutDashboard,
-  LoaderCircle,
   Menu,
   MessageSquare,
   Plus,
@@ -35,173 +30,16 @@ import {
   Zap,
 } from "lucide-react";
 import {
-  agentCount,
   createDemoReport,
   defaultConfig,
   sampleProfiles,
-  type Audience,
-  type Objective,
-  type Persona,
-  type Reaction,
   type Report,
-  type StudyConfig,
-  type SwarmEvent,
 } from "./demo";
 
-import MarketPanel from "./MarketPanel";
+import { Logo, Swarm } from "./Brand";
+import { ResearchWorkspace } from "./research/ResearchWorkspace";
 
 const repoUrl = "https://github.com/Kabanosk/grok-bot-hackathon-26";
-
-function Logo({ small = false }: { small?: boolean }) {
-  return (
-    <span className={`logo ${small ? "logo-small" : ""}`}>
-      <svg viewBox="0 0 32 36" fill="none" aria-hidden="true">
-        <path d="m16 1 13 7.5L16 16 3 8.5Z" fill="currentColor" />
-        <path d="m1 13 12 7v15L1 28Z" fill="currentColor" opacity=".7" />
-        <path d="m31 13-12 7v15l12-7Z" fill="currentColor" opacity=".9" />
-      </svg>
-      <span>
-        cohort<span className="logo-period">.</span>
-      </span>
-    </span>
-  );
-}
-
-function Swarm({
-  compact = false,
-  running = false,
-}: {
-  compact?: boolean;
-  running?: boolean;
-}) {
-  const dots = Array.from({ length: 48 }, (_, i) => {
-    const angle = i * 2.399963;
-    const radius = 18 + Math.sqrt(i / 48) * 121;
-    return {
-      x: 220 + Math.cos(angle) * radius * 1.29,
-      y: 123 + Math.sin(angle) * radius * 0.64,
-      size: i % 9 === 0 ? 4 : 2.4,
-      index: i,
-    };
-  });
-  return (
-    <svg
-      className={`swarm ${compact ? "swarm-compact" : ""} ${running ? "is-running" : ""}`}
-      viewBox="0 0 440 245"
-      role="img"
-      aria-label="Illustration of simulated customer agents connected in a swarm"
-    >
-      <defs>
-        <radialGradient id={compact ? "glow-small" : "glow"}>
-          <stop offset="0%" stopColor="#e8bd7c" stopOpacity=".11" />
-          <stop offset="100%" stopColor="#e8bd7c" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <ellipse
-        cx="220"
-        cy="123"
-        rx="205"
-        ry="119"
-        fill={`url(#${compact ? "glow-small" : "glow"})`}
-      />
-      <g stroke="currentColor" fill="none" className="swarm-orbits">
-        <ellipse cx="220" cy="123" rx="174" ry="75" />
-        <ellipse
-          cx="220"
-          cy="123"
-          rx="131"
-          ry="75"
-          transform="rotate(-25 220 123)"
-        />
-        <ellipse
-          cx="220"
-          cy="123"
-          rx="131"
-          ry="75"
-          transform="rotate(25 220 123)"
-        />
-        <ellipse cx="220" cy="123" rx="78" ry="90" />
-        <path d="M46 123h348M220 33v180" />
-      </g>
-      <g className="swarm-links" stroke="#b89b70">
-        {dots
-          .filter((_, i) => i % 3 === 0)
-          .map((d) => (
-            <path key={d.index} d={`M220 123  ${d.x} ${d.y}`} />
-          ))}
-      </g>
-      {dots.map((d) => (
-        <g
-          key={d.index}
-          className="swarm-dot"
-          style={{ animationDelay: `${d.index * -0.17}s` }}
-        >
-          <circle
-            cx={d.x}
-            cy={d.y}
-            r={d.size + 4}
-            fill={d.index % 5 === 0 ? "#9caf91" : "#e8bd7c"}
-            opacity=".07"
-          />
-          <circle
-            cx={d.x}
-            cy={d.y}
-            r={d.size}
-            fill={d.index % 5 === 0 ? "#9caf91" : "#d8bc91"}
-            opacity={d.index % 3 === 0 ? 0.95 : 0.5}
-          />
-        </g>
-      ))}
-      <circle cx="220" cy="123" r="23" fill="#24251f" stroke="#6b5e47" />
-      <path
-        d="m220 109 12 7-12 7-12-7Zm-11 12 9 5v12l-9-5Zm22 0-9 5v12l9-5Z"
-        fill="#e8bd7c"
-      />
-      {!compact && (
-        <>
-          <rect
-            x="295"
-            y="47"
-            width="107"
-            height="29"
-            rx="6"
-            fill="#22231e"
-            stroke="#3a3b31"
-          />
-          <circle cx="308" cy="61.5" r="3" fill="#a2b896" />
-          <text
-            x="318"
-            y="65"
-            fill="#c3c5b9"
-            fontSize="9.5"
-            fontFamily="inherit"
-          >
-            48 unique perspectives
-          </text>
-          <rect
-            x="27"
-            y="170"
-            width="113"
-            height="29"
-            rx="6"
-            fill="#22231e"
-            stroke="#3a3b31"
-          />
-          <circle cx="40" cy="184.5" r="3" fill="#e8bd7c" />
-          <text
-            x="50"
-            y="188"
-            fill="#c3c5b9"
-            fontSize="9.5"
-            fontFamily="inherit"
-          >
-            One collective insight
-          </text>
-        </>
-      )}
-    </svg>
-  );
-}
 
 type Panel = "Overview" | "Simulations" | "Audiences" | "Data sources";
 
@@ -228,7 +66,7 @@ function Dashboard({
       title: "Onboarding experience",
       result: createDemoReport(defaultConfig),
       audience: "Startup founders",
-      count: 8,
+      count: 48,
     },
     {
       title: "Pricing page clarity",
@@ -239,7 +77,7 @@ function Dashboard({
         participants: 24,
       }),
       audience: "Product teams",
-      count: 6,
+      count: 24,
     },
     {
       title: "New product concept",
@@ -249,7 +87,7 @@ function Dashboard({
         audience: "Everyday consumers",
       }),
       audience: "Everyday consumers",
-      count: 8,
+      count: 48,
     },
     {
       title: "Next launch concept",
@@ -263,7 +101,7 @@ function Dashboard({
       title: `${report.config.product} — ${report.config.objective.toLowerCase()}`,
       result: report,
       audience: report.config.audience,
-      count: agentCount(report.config.participants),
+      count: report.config.participants,
     });
   const visibleStudies =
     tab === "Completed" ? studies.filter((study) => study.result) : studies;
@@ -373,11 +211,11 @@ function Dashboard({
                 </div>
                 <div className="stat">
                   <span>
-                    Grok agents <Users size={13} aria-hidden="true" />
+                    AI participants <Users size={13} aria-hidden="true" />
                   </span>
                   <div>
-                    {agentCount(current.config.participants)}
-                    <small>Grok agents in the panel</small>
+                    {current.config.participants}
+                    <small>Across your audience</small>
                   </div>
                 </div>
                 <div className="stat">
@@ -404,7 +242,7 @@ function Dashboard({
                   <div className="swarm-caption">
                     <span>{current.config.audience}</span>
                     <span>
-                      {agentCount(current.config.participants)} Grok agents{" "}
+                      {current.config.participants} agents{" "}
                       <span className="separator-dot">·</span> Sample personas
                     </span>
                   </div>
@@ -470,7 +308,7 @@ function Dashboard({
                   <span>Study</span>
                   <span>Audience</span>
                   <span>Status</span>
-                  <span>Agents</span>
+                  <span>Participants</span>
                 </div>
                 {visibleStudies.map((study, i) => (
                   <button
@@ -580,645 +418,34 @@ function Dashboard({
   );
 }
 
-const runningSteps = [
-  "Recruiting your panel",
-  "Interviewing personas in parallel",
-  "Panel debate",
-  "Synthesizing findings",
-];
-
-function FieldCard({ text, excerpt = false }: { text: string; excerpt?: boolean }) {
-  return (
-    <aside className="field-card" aria-label="Grok Bot field test">
-      <strong>Grok Bot · field tester (used the live product)</strong>
-      <p>{excerpt && text.length > 280 ? `${text.slice(0, 280)}…` : text}</p>
-    </aside>
+function App() {
+  const [workspaceOpen, setWorkspaceOpen] = useState(
+    window.location.pathname === "/workspace",
   );
-}
-
-function Workspace({
-  onClose,
-  onComplete,
-  initialReport,
-}: {
-  onClose: () => void;
-  onComplete: (report: Report) => void;
-  initialReport: Report | null;
-}) {
-  const dialog = useRef<HTMLDialogElement>(null);
-  const [config, setConfig] = useState<StudyConfig>(
-    initialReport?.config ?? {
-      ...defaultConfig,
-      product: "",
-      url: "",
-      description: "",
-    },
-  );
-  const [stage, setStage] = useState<"setup" | "running" | "results">(
-    initialReport ? "results" : "setup",
-  );
-  const [step, setStep] = useState(0);
-  const [report, setReport] = useState<Report | null>(initialReport);
-  const [error, setError] = useState("");
-  const [personas, setPersonas] = useState<Persona[]>([]);
-  const [reactions, setReactions] = useState<Reaction[]>([]);
-  const [debates, setDebates] = useState<
-    Record<string, Extract<SwarmEvent, { type: "debate" }>>
-  >({});
-  const [notes, setNotes] = useState<string[]>([]);
-  const [run, setRun] = useState<{ mode: "live" | "demo"; model: string; agents: number } | null>(null);
-  const [fieldText, setFieldText] = useState("");
-  const [copied, setCopied] = useState(false);
-  const productInput = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const element = dialog.current;
-    if (element && !element.open) element.showModal();
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = overflow;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (stage !== "running") return;
-    const controller = new AbortController();
-    const finish = (result: Report) => {
-      setReport(result);
-      onComplete(result);
-      setStage("results");
-    };
-    const handle = (event: SwarmEvent) => {
-      if (event.type === "mode") setRun(event);
-      else if (event.type === "stage") setStep(event.index);
-      else if (event.type === "persona")
-        setPersonas((list) => [...list, event.persona]);
-      else if (event.type === "reaction")
-        setReactions((list) => [...list, event.reaction]);
-      else if (event.type === "field") setFieldText(event.text);
-      else if (event.type === "debate")
-        setDebates((d) => ({ ...d, [event.personaId]: event }));
-      else if (event.type === "scout" || event.type === "warning")
-        setNotes((list) => [
-          ...list,
-          event.type === "scout" ? event.detail : event.message,
-        ]);
-      else if (event.type === "error") throw new Error(event.message);
-      else if (event.type === "report") finish(event.report);
-    };
-    (async () => {
-      try {
-        const res = await fetch("/api/study", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(config),
-          signal: controller.signal,
-        });
-        if (!res.ok || !res.body) throw new Error("Swarm service unavailable");
-        const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
-        let buffer = "";
-        let done = false;
-        while (!done) {
-          const chunk = await reader.read();
-          done = chunk.done;
-          buffer += chunk.value ?? "";
-          let newline = buffer.indexOf("\n");
-          while (newline >= 0) {
-            const line = buffer.slice(0, newline).trim();
-            buffer = buffer.slice(newline + 1);
-            if (line) handle(JSON.parse(line) as SwarmEvent);
-            newline = buffer.indexOf("\n");
-          }
-        }
-      } catch (e) {
-        if (controller.signal.aborted) return;
-        // Offline fallback: keep the demo working without the swarm service.
-        setNotes((list) => [
-          ...list,
-          `Swarm unavailable (${(e as Error).message}). Showing sample data.`,
-        ]);
-        for (let i = 0; i < runningSteps.length; i++) {
-          setStep(i);
-          await new Promise((r) => window.setTimeout(r, 500));
-          if (controller.signal.aborted) return;
-        }
-        finish({ ...createDemoReport(config), mode: "demo", ...(config.fieldNotes ? { fieldNotes: config.fieldNotes } : {}) });
-      }
-    })();
-    return () => controller.abort();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stage]);
-
-  function start(e: FormEvent) {
-    e.preventDefault();
-    if (!config.product.trim()) {
-      setError("Give your product a name to continue.");
-      productInput.current?.focus();
-      return;
-    }
-    if (!config.description.trim()) {
-      setError("Add a short description so your study has some context.");
-      return;
-    }
-    if (config.url.trim()) {
-      try {
-        const url = new URL(config.url);
-        if (!["http:", "https:"].includes(url.protocol)) throw new Error();
-      } catch {
-        setError("Use a full product URL, starting with https:// or http://.");
-        return;
-      }
-    }
-    setError("");
-    setConfig((c) => ({
-      ...c,
-      product: c.product.trim(),
-      description: c.description.trim(),
-      url: c.url.trim(),
-    }));
-    setStep(0);
-    setPersonas([]);
-    setReactions([]);
-    setDebates({});
-    setNotes([]);
-    setRun(null);
-    setStage("running");
-  }
-
-  const live = report?.mode === "live";
-
-  function copyBrief() {
-    const goal = {
-      "Usability test":
-        "complete the main task the product promises and note every point of confusion",
-      "Concept validation":
-        "judge whether it solves a real problem you would have today",
-      "Pricing research":
-        "find the pricing and say what you would expect to pay and why",
-    }[config.objective];
-    const brief =
-      `Open ${config.url || config.product}. Act as a first-time user from this audience: ${config.audience.toLowerCase()}. ` +
-      `Try to ${goal}. Spend 5 minutes. Report: what you tried, where you got stuck, what you liked, ` +
-      `would you use it (yes/maybe/no), in under 200 words.`;
-    const done = () => {
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    };
-    navigator.clipboard?.writeText(brief).then(done, done);
-  }
-
-  function downloadReport() {
-    if (!report) return;
-    const data = {
-      ...report,
-      mode: live ? "live" : "demo",
-      provenance: live
-        ? `Generated by a swarm of ${report.agents} Grok agents (${report.model}) acting as synthetic customers, then synthesized by a researcher agent. Synthetic opinions: validate with real customers.`
-        : "Fictional personas and prewritten sample findings. No website was fetched and no Grok API was called.",
-    };
-    const url = URL.createObjectURL(
-      new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
-    );
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `cohort-${report.config.product
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .slice(0, 60)}-${live ? "swarm" : "demo"}-report.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  return (
-    <dialog
-      ref={dialog}
-      className="workspace-dialog"
-      aria-labelledby="workspace-title"
-      onCancel={onClose}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div className="dialog-shell">
-        <div className="dialog-header">
-          <Logo small />
-          <span className="preview-pill">
-            {(run ?? report)?.mode === "live"
-              ? `LIVE · ${(run ?? report)?.model}`
-              : "INTERACTIVE DEMO"}
-          </span>
-          <button
-            className="icon-button"
-            aria-label="Close workspace"
-            onClick={onClose}
-          >
-            <X size={19} />
-          </button>
-        </div>
-        {stage === "setup" && (
-          <form onSubmit={start} noValidate>
-            <div className="dialog-intro">
-              <span className="section-kicker">
-                A LITTLE CONTEXT. A LOT OF PERSPECTIVE.
-              </span>
-              <h2 id="workspace-title">Meet your next customers.</h2>
-              <p>Set up a sample study and see how Cohort works.</p>
-            </div>
-            <div className="setup-grid">
-              <div className="setup-fields">
-                <label htmlFor="product">
-                  Product name <span>Required</span>
-                </label>
-                <input
-                  ref={productInput}
-                  autoFocus
-                  id="product"
-                  value={config.product}
-                  maxLength={80}
-                  onChange={(e) =>
-                    setConfig({ ...config, product: e.target.value })
-                  }
-                  placeholder="e.g. Orbit"
-                  required
-                  aria-invalid={!!error && !config.product.trim()}
-                />
-                <label htmlFor="product-url">
-                  Product URL <span>Optional</span>
-                </label>
-                <input
-                  id="product-url"
-                  type="url"
-                  value={config.url}
-                  maxLength={2000}
-                  onChange={(e) =>
-                    setConfig({ ...config, url: e.target.value })
-                  }
-                  placeholder="https://your-product.com"
-                />
-                <label htmlFor="description">
-                  What are you building? <span>Required</span>
-                </label>
-                <textarea
-                  id="description"
-                  rows={3}
-                  value={config.description}
-                  maxLength={1000}
-                  onChange={(e) =>
-                    setConfig({ ...config, description: e.target.value })
-                  }
-                  placeholder="Describe your product and the problem it solves…"
-                  required
-                />
-                <label htmlFor="objective">What would you like to learn?</label>
-                <div className="select-wrap">
-                  <select
-                    id="objective"
-                    value={config.objective}
-                    onChange={(e) =>
-                      setConfig({
-                        ...config,
-                        objective: e.target.value as Objective,
-                      })
-                    }
-                  >
-                    {(
-                      [
-                        "Usability test",
-                        "Concept validation",
-                        "Pricing research",
-                      ] as const
-                    ).map((o) => (
-                      <option key={o}>{o}</option>
-                    ))}
-                  </select>
-                  <ChevronDown size={15} aria-hidden="true" />
-                </div>
-                <label htmlFor="field-notes">
-                  Field notes from Grok Bot <span>Optional</span>
-                </label>
-                <textarea
-                  id="field-notes"
-                  rows={3}
-                  value={config.fieldNotes ?? ""}
-                  maxLength={3000}
-                  onChange={(e) =>
-                    setConfig({ ...config, fieldNotes: e.target.value })
-                  }
-                  placeholder="Give Grok Bot the brief, let it use your product, paste its notes here."
-                />
-                <button type="button" className="copy-brief" onClick={copyBrief}>
-                  {copied ? "Copied" : "Copy brief for Grok Bot"}
-                </button>
-              </div>
-              <div className="setup-audience">
-                <div className="setup-audience-heading">
-                  <Users size={17} aria-hidden="true" />
-                  <h3>Your sample audience</h3>
-                </div>
-                <label htmlFor="audience">Who is it for?</label>
-                <div className="select-wrap">
-                  <select
-                    id="audience"
-                    value={config.audience}
-                    onChange={(e) =>
-                      setConfig({
-                        ...config,
-                        audience: e.target.value as Audience,
-                      })
-                    }
-                  >
-                    {(
-                      [
-                        "Startup founders",
-                        "Product teams",
-                        "Everyday consumers",
-                      ] as const
-                    ).map((a) => (
-                      <option key={a}>{a}</option>
-                    ))}
-                  </select>
-                  <ChevronDown size={15} aria-hidden="true" />
-                </div>
-                <fieldset className="size-field">
-                  <legend>Panel size (Grok agents)</legend>
-                  <div className="participant-options">
-                    {[24, 48, 96].map((n) => (
-                      <button
-                        type="button"
-                        className={config.participants === n ? "selected" : ""}
-                        key={n}
-                        aria-pressed={config.participants === n}
-                        onClick={() =>
-                          setConfig({ ...config, participants: n })
-                        }
-                      >
-                        {agentCount(n)}
-                        <span>Grok agents</span>
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
-                <div className="setup-profiles">
-                  {sampleProfiles[config.audience].slice(0, 3).map((p) => (
-                    <div key={p.name}>
-                      <span className={`avatar ${p.tone}`}>{p.initials}</span>
-                      <span>
-                        {p.name}
-                        <small>{p.role}</small>
-                      </span>
-                      <Check size={12} aria-hidden="true" />
-                    </div>
-                  ))}
-                </div>
-                <div className="demo-notice">
-                  <CircleHelp size={15} aria-hidden="true" />
-                  <span>
-                    This preview uses fictional personas and prewritten
-                    findings. Product URLs are saved as context, but aren’t
-                    visited.
-                  </span>
-                </div>
-              </div>
-            </div>
-            {error && (
-              <p className="form-error" role="alert">
-                {error}
-              </p>
-            )}
-            <div className="dialog-footer">
-              <span>
-                <ShieldCheck size={14} aria-hidden="true" />
-                No account or API key needed
-              </span>
-              <button className="button amber" type="submit">
-                Run sample simulation{" "}
-                <ArrowRight size={16} aria-hidden="true" />
-              </button>
-            </div>
-          </form>
-        )}
-        {stage === "running" && (
-          <div className="running-stage">
-            <span className="section-kicker">SWARM PREVIEW</span>
-            <h2 id="workspace-title">A few different points of view.</h2>
-            <p>
-              Preparing a sample {config.objective.toLowerCase()} for{" "}
-              {config.product}.
-            </p>
-            <Swarm compact running />
-            <div className="running-steps" role="status" aria-live="polite">
-              {runningSteps.map((s, i) => (
-                <div key={s} className={i <= step ? "current" : ""}>
-                  {i < step ? (
-                    <Check size={16} aria-hidden="true" />
-                  ) : i === step ? (
-                    <LoaderCircle
-                      size={16}
-                      className="spinning"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    <span className="step-circle" />
-                  )}
-                  {s}
-                </div>
-              ))}
-            </div>
-            {fieldText && <FieldCard text={fieldText} excerpt />}
-            {personas.length > 0 && (
-              <ul className="swarm-feed" aria-label="Swarm participants">
-                {personas.map((p) => {
-                  const r = reactions.find((x) => x.personaId === p.id);
-                  const d = debates[p.id];
-                  const verdict = d?.verdict ?? r?.verdict;
-                  return (
-                    <li key={p.id} className={r ? "answered" : ""}>
-                      <span className={`avatar ${p.tone}`}>{p.initials}</span>
-                      <span className="swarm-feed-body">
-                        <strong>
-                          {p.name} <small>{p.role}</small>
-                        </strong>
-                        {r ? (
-                          <>
-                            <q>{r.quote}</q>
-                            {d && (
-                              <span className="debate-reply">
-                                <b>↩ to {d.replyTo}</b> {d.text}
-                                {d.changed && (
-                                  <span className="mind-chip">changed mind</span>
-                                )}
-                              </span>
-                            )}
-                          </>
-                        ) : (
-                          <em>
-                            <LoaderCircle size={12} className="spinning" aria-hidden="true" />{" "}
-                            thinking as a {p.attitude}…
-                          </em>
-                        )}
-                      </span>
-                      {r && verdict && (
-                        <span className={`verdict ${verdict}`}>
-                          {verdict === "yes" ? "Would use" : verdict === "no" ? "Wouldn’t" : "Maybe"}
-                        </span>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-            {notes.map((n) => (
-              <p key={n} className="running-note">
-                {n}
-              </p>
-            ))}
-            <p className="running-note">
-              {run?.mode === "live"
-                ? `Live · ${run.agents} Grok agents · ${run.model} · ${reactions.length}/${run.agents} answered`
-                : "Simulated progress · No live model calls"}
-            </p>
-          </div>
-        )}
-        {stage === "results" && report && (
-          <div className="result-stage">
-            <div className="result-top">
-              <div>
-                <span className="section-kicker">
-                  <CheckCheck size={14} aria-hidden="true" />{" "}
-                  {live ? "SWARM STUDY COMPLETE" : "SAMPLE STUDY COMPLETE"}
-                </span>
-                <h2 id="workspace-title">
-                  A clearer view of {report.config.product}.
-                </h2>
-                <p>
-                  {report.config.objective}{" "}
-                  <span className="separator-dot">·</span>{" "}
-                  {report.config.audience}{" "}
-                  <span className="separator-dot">·</span>{" "}
-                  {live
-                    ? `${report.agents} Grok agents`
-                    : `${agentCount(report.config.participants)} sample agents`}
-                </p>
-              </div>
-              <div className="result-score">
-                <strong>
-                  {report.score}
-                  <span>/100</span>
-                </strong>
-                <span>{live ? "Swarm score" : "Illustrative score"}</span>
-              </div>
-            </div>
-            <div className="result-disclaimer">
-              <CircleHelp size={16} aria-hidden="true" />
-              <p>
-                {live
-                  ? report.summary ||
-                    "Synthetic customers generated by Grok. Treat these as hypotheses and validate them with real customers."
-                  : "These are prewritten examples for your chosen study type, not an evaluation of your product. Validate findings with real customers."}
-              </p>
-            </div>
-            {report.breakdown && (
-              <div
-                className="verdict-bar"
-                role="img"
-                aria-label={`${report.breakdown.yes} would use, ${report.breakdown.maybe} maybe, ${report.breakdown.no} would not`}
-              >
-                <span className="yes" style={{ flex: report.breakdown.yes || 0.001 }}>
-                  {report.breakdown.yes} would use
-                </span>
-                <span className="maybe" style={{ flex: report.breakdown.maybe || 0.001 }}>
-                  {report.breakdown.maybe} maybe
-                </span>
-                <span className="no" style={{ flex: report.breakdown.no || 0.001 }}>
-                  {report.breakdown.no} wouldn’t
-                </span>
-              </div>
-            )}
-            <h3 className="findings-title">
-              {live ? "What the swarm told you" : "A preview of what you could learn"}
-            </h3>
-            <div className="result-findings">
-              {report.findings.map((finding, i) => (
-                <article key={finding.title}>
-                  <span className="finding-index">0{i + 1}</span>
-                  <div>
-                    <h3>{finding.title}</h3>
-                    <p>{finding.detail}</p>
-                  </div>
-                  <span
-                    className={`severity ${finding.severity.toLowerCase()}`}
-                  >
-                    {finding.severity} priority
-                  </span>
-                </article>
-              ))}
-            </div>
-            {report.fieldNotes && <FieldCard text={report.fieldNotes} />}
-            {report.voices && report.voices.length > 0 && (
-              <>
-                <h3 className="findings-title">
-                  {live ? "Voices from the swarm" : "Sample voices (scripted)"}
-                </h3>
-                <ul className="swarm-feed voices">
-                  {[...report.voices]
-                    .sort((a, b) => a.score - b.score)
-                    .filter((_, i, all) => i < 2 || i >= all.length - 2)
-                    .map((r) => (
-                      <li key={r.personaId} className="answered">
-                        <span className={`avatar ${r.tone}`}>{r.initials}</span>
-                        <span className="swarm-feed-body">
-                          <strong>
-                            {r.name} <small>{r.role} · {r.score}/100</small>
-                          </strong>
-                          <q>{r.quote}</q>
-                          {r.debate && (
-                            <span className="debate-reply">
-                              <b>↩ to {r.debate.replyTo}</b> {r.debate.text}
-                              {r.debate.changed && (
-                                <span className="mind-chip">changed mind</span>
-                              )}
-                            </span>
-                          )}
-                          {r.concern && live && <small>Concern: {r.concern}</small>}
-                        </span>
-                        <span className={`verdict ${r.verdict}`}>
-                          {r.verdict === "yes" ? "Would use" : r.verdict === "no" ? "Wouldn’t" : "Maybe"}
-                        </span>
-                      </li>
-                    ))}
-                </ul>
-              </>
-            )}
-            <div className="dialog-footer">
-              <button className="text-button" onClick={() => setStage("setup")}>
-                <ArrowDownLeft size={15} aria-hidden="true" /> Adjust your study
-              </button>
-              <button className="button amber" onClick={downloadReport}>
-                <Download size={15} aria-hidden="true" /> Download sample report
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </dialog>
-  );
-}
-
-function Landing() {
-  const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
-  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
-  const [report, setReport] = useState<Report | null>(null);
+  const report: Report | null = null;
   const launch = () => {
-    setSelectedReport(null);
     setMobileNav(false);
+    window.history.pushState({}, "", "/workspace");
     setWorkspaceOpen(true);
   };
-  const inspect = (result: Report) => {
-    setSelectedReport(result);
-    setWorkspaceOpen(true);
-  };
+  const inspect = () => launch();
+  useEffect(() => {
+    const onNavigation = () =>
+      setWorkspaceOpen(window.location.pathname === "/workspace");
+    window.addEventListener("popstate", onNavigation);
+    return () => window.removeEventListener("popstate", onNavigation);
+  }, []);
+  if (workspaceOpen)
+    return (
+      <ResearchWorkspace
+        onExit={() => {
+          window.history.pushState({}, "", "/");
+          setWorkspaceOpen(false);
+          window.scrollTo(0, 0);
+        }}
+      />
+    );
 
   return (
     <>
@@ -1242,9 +469,6 @@ function Landing() {
             </a>
             <a href="#our-approach" onClick={() => setMobileNav(false)}>
               Our approach
-            </a>
-            <a href="#panel" onClick={() => setMobileNav(false)}>
-              Live market panel
             </a>
           </nav>
           <div className="header-actions">
@@ -1586,25 +810,8 @@ function Landing() {
           </a>
         </div>
       </footer>
-      {workspaceOpen && (
-        <Workspace
-          onClose={() => setWorkspaceOpen(false)}
-          onComplete={setReport}
-          initialReport={selectedReport}
-        />
-      )}
     </>
   );
-}
-
-function App() {
-  const [hash, setHash] = useState(() => window.location.hash);
-  useEffect(() => {
-    const on = () => setHash(window.location.hash);
-    window.addEventListener("hashchange", on);
-    return () => window.removeEventListener("hashchange", on);
-  }, []);
-  return hash === "#panel" ? <MarketPanel /> : <Landing />;
 }
 
 export default App;
