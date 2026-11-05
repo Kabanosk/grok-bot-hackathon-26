@@ -118,6 +118,7 @@ function ConnectionDialog({
   const [error, setError] = useState("");
   useEffect(() => {
     dialog.current?.showModal();
+    if (import.meta.env.PROD) return;
     void api<{ instruction: string }>("setup")
       .then((r) => setInstruction(r.instruction))
       .catch(() =>
@@ -150,6 +151,57 @@ function ConnectionDialog({
       setSaving(false);
     }
   }
+  if (import.meta.env.PROD)
+    return (
+      <dialog
+        className="rw-dialog"
+        ref={dialog}
+        onCancel={onClose}
+        aria-labelledby="connect-title"
+      >
+        <div className="rw-dialog-top">
+          <span>
+            <Monitor size={16} />
+            Hosted demo
+          </span>
+          <button
+            className="rw-icon-button"
+            onClick={onClose}
+            aria-label="Close connection settings"
+          >
+            <X size={18} />
+          </button>
+        </div>
+        <div className="rw-dialog-body">
+          <span className="rw-eyebrow">SYNTHETIC RESEARCH WORKSPACE</span>
+          <h2 id="connect-title">Explore the full workspace.</h2>
+          <p>
+            This published demo includes mock sign-in, synthetic populations,
+            research, conversations, pricing, and calibration. Your work stays
+            in this browser.
+          </p>
+          <p>
+            The native Grok Bot webhook bridge runs in the local development
+            environment. This site does not run cloud Bots or accept their
+            credentials.
+          </p>
+        </div>
+        <div className="rw-dialog-footer">
+          <a
+            href="https://github.com/Kabanosk/grok-bot-hackathon-26#local-development"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Local setup
+            <ExternalLink size={12} />
+          </a>
+          <button className="rw-button primary" onClick={onClose}>
+            Continue exploring
+            <ArrowRight size={14} />
+          </button>
+        </div>
+      </dialog>
+    );
   return (
     <dialog
       className="rw-dialog"
@@ -1585,7 +1637,9 @@ export function ResearchWorkspace({ onExit }: { onExit: () => void }) {
               disabled={!!busy}
             >
               <option value="synthetic">Synthetic sandbox</option>
-              <option value="cloud">Cloud Grok Bots</option>
+              <option value="cloud" disabled={import.meta.env.PROD}>
+                Cloud Grok Bots{import.meta.env.PROD ? " · local only" : ""}
+              </option>
             </select>
             <span
               className={`rw-connection-status ${connection.configured ? "ready" : ""}`}

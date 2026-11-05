@@ -14,7 +14,14 @@ type Persona = {
   attitude: "enthusiast" | "pragmatist" | "skeptic";
   region?: string;
 };
-type Region = { id: string; name: string; population: number; share: number; capital: string; urbanization?: number };
+type Region = {
+  id: string;
+  name: string;
+  population: number;
+  share: number;
+  capital: string;
+  urbanization?: number;
+};
 type RegionStat = {
   regionId: string;
   name: string;
@@ -27,17 +34,44 @@ type RegionStat = {
   buyers: number;
   personas: number;
 };
-type Reaction = { personaId: string; verdict: Verdict; score: number; quote: string; concern: string; wtp?: string };
-type Debate = { personaId: string; replyTo: string; text: string; changed: boolean; verdict?: Verdict };
-type Finding = { title: string; detail: string; severity: "High" | "Medium" | "Low" };
+type Reaction = {
+  personaId: string;
+  verdict: Verdict;
+  score: number;
+  quote: string;
+  concern: string;
+  wtp?: string;
+};
+type Debate = {
+  personaId: string;
+  replyTo: string;
+  text: string;
+  changed: boolean;
+  verdict?: Verdict;
+};
+type Finding = {
+  title: string;
+  detail: string;
+  severity: "High" | "Medium" | "Low";
+};
 type Market = {
-  study: { product: string; market: string; description: string; objective: string; createdAt: string } | null;
+  study: {
+    product: string;
+    market: string;
+    description: string;
+    objective: string;
+    createdAt: string;
+  } | null;
   segments: Segment[];
   regions?: Region[];
   personas: Persona[];
   reactions: Reaction[];
   debate: Debate[];
-  report: { summary: string; findings: Finding[]; recommendation?: string } | null;
+  report: {
+    summary: string;
+    findings: Finding[];
+    recommendation?: string;
+  } | null;
   log: { at: string; text: string }[];
   stats: {
     personas: number;
@@ -45,7 +79,13 @@ type Market = {
     weightedScore: number | null;
     adoption: { yes: number; maybe: number; no: number } | null;
     byRegion?: RegionStat[];
-    bySegment: { segmentId: string; score: number | null; yes: number; maybe: number; no: number }[];
+    bySegment: {
+      segmentId: string;
+      score: number | null;
+      yes: number;
+      maybe: number;
+      no: number;
+    }[];
   };
 };
 
@@ -57,24 +97,48 @@ const initials = (name: string) =>
     .join("")
     .slice(0, 2)
     .toUpperCase();
-const toneOf = (id: string) => tones[[...id].reduce((a, c) => a + c.charCodeAt(0), 0) % tones.length];
+const toneOf = (id: string) =>
+  tones[[...id].reduce((a, c) => a + c.charCodeAt(0), 0) % tones.length];
 const time = (iso: string) => {
   const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? "" : d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  return Number.isNaN(d.getTime())
+    ? ""
+    : d.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
 };
 const pct = (n: number) => `${Math.round(n)}%`;
 
 // Tile map of Poland: [row, col] on a 5x4 grid.
 const TILE_POS: Record<string, [number, number]> = {
-  zachodniopomorskie: [1, 1], pomorskie: [1, 2], "warminsko-mazurskie": [1, 3], podlaskie: [1, 4],
-  lubuskie: [2, 1], "kujawsko-pomorskie": [2, 2], mazowieckie: [2, 3],
-  wielkopolskie: [3, 1], lodzkie: [3, 2], swietokrzyskie: [3, 3], lubelskie: [3, 4],
-  dolnoslaskie: [4, 1], opolskie: [4, 2], slaskie: [4, 3], malopolskie: [4, 4],
+  zachodniopomorskie: [1, 1],
+  pomorskie: [1, 2],
+  "warminsko-mazurskie": [1, 3],
+  podlaskie: [1, 4],
+  lubuskie: [2, 1],
+  "kujawsko-pomorskie": [2, 2],
+  mazowieckie: [2, 3],
+  wielkopolskie: [3, 1],
+  lodzkie: [3, 2],
+  swietokrzyskie: [3, 3],
+  lubelskie: [3, 4],
+  dolnoslaskie: [4, 1],
+  opolskie: [4, 2],
+  slaskie: [4, 3],
+  malopolskie: [4, 4],
   podkarpackie: [5, 4],
 };
 const money = (n: number) => `${n.toFixed(1)}M`;
 
-function RegionalSection({ stats, regions }: { stats: RegionStat[]; regions: Region[] }) {
+function RegionalSection({
+  stats,
+  regions,
+}: {
+  stats: RegionStat[];
+  regions: Region[];
+}) {
   const info = new Map(regions.map((r) => [r.id, r]));
   const top = [...stats].sort((a, b) => b.buyers - a.buyers).slice(0, 5);
   const maxBuyers = Math.max(0.0001, ...top.map((r) => r.buyers));
@@ -89,13 +153,22 @@ function RegionalSection({ stats, regions }: { stats: RegionStat[]; regions: Reg
             const pos = TILE_POS[r.regionId];
             const t = hi > lo ? (r.yes - lo) / (hi - lo) : 0.5;
             const alpha = (0.2 + t * 0.6).toFixed(2);
-            const hue = t >= 0.66 ? "161,181,138" : t >= 0.33 ? "212,165,116" : "217,154,140";
+            const hue =
+              t >= 0.66
+                ? "161,181,138"
+                : t >= 0.33
+                  ? "212,165,116"
+                  : "217,154,140";
             return (
               <li
                 key={r.regionId}
                 className={`mk-tile${pos?.[1] === 4 ? " is-right" : ""}`}
                 tabIndex={0}
-                style={{ gridRow: pos?.[0], gridColumn: pos?.[1], background: `rgba(${hue},${alpha})` }}
+                style={{
+                  gridRow: pos?.[0],
+                  gridColumn: pos?.[1],
+                  background: `rgba(${hue},${alpha})`,
+                }}
               >
                 <b>{r.name}</b>
                 <span>{pct(r.yes)} yes</span>
@@ -104,18 +177,24 @@ function RegionalSection({ stats, regions }: { stats: RegionStat[]; regions: Reg
                   <b>{r.name}</b>
                   <p>
                     <em>Population:</em> {money(r.population)}
-                    {info.get(r.regionId) ? ` · capital ${info.get(r.regionId)!.capital}` : ""}
+                    {info.get(r.regionId)
+                      ? ` · capital ${info.get(r.regionId)!.capital}`
+                      : ""}
                   </p>
                   {info.get(r.regionId)?.urbanization != null && (
                     <p>
-                      <em>Urbanization:</em> {pct(info.get(r.regionId)!.urbanization!)}
+                      <em>Urbanization:</em>{" "}
+                      {pct(info.get(r.regionId)!.urbanization!)}
                     </p>
                   )}
                   <p>
-                    <em>Adoption:</em> yes {pct(r.yes)} · maybe {pct(r.maybe)} · no {pct(r.no)}
+                    <em>Adoption:</em> yes {pct(r.yes)} · maybe {pct(r.maybe)} ·
+                    no {pct(r.no)}
                   </p>
                   <p>
-                    <em>Score:</em> {r.score == null ? "–" : Math.round(r.score)} · <em>Personas:</em> {r.personas}
+                    <em>Score:</em>{" "}
+                    {r.score == null ? "–" : Math.round(r.score)} ·{" "}
+                    <em>Personas:</em> {r.personas}
                   </p>
                 </div>
               </li>
@@ -129,7 +208,9 @@ function RegionalSection({ stats, regions }: { stats: RegionStat[]; regions: Reg
               <li key={r.regionId}>
                 <span className="mk-launch-name">{r.name}</span>
                 <b>{money(r.buyers)}</b>
-                <div className="mk-share"><i style={{ width: `${(r.buyers / maxBuyers) * 100}%` }} /></div>
+                <div className="mk-share">
+                  <i style={{ width: `${(r.buyers / maxBuyers) * 100}%` }} />
+                </div>
               </li>
             ))}
           </ol>
@@ -146,9 +227,15 @@ export function useMarket() {
     let alive = true;
     const tick = async () => {
       try {
-        let res = await fetch("/api/market").catch(() => null);
+        let res = await fetch(
+          import.meta.env.PROD ? "/market-demo.json" : "/api/market",
+        ).catch(() => null);
         // Static hosting (Vercel) has no /api: show the recorded Cohort Master run.
-        if (!res || !res.ok || !(res.headers.get("content-type") ?? "").includes("json"))
+        if (
+          !res ||
+          !res.ok ||
+          !(res.headers.get("content-type") ?? "").includes("json")
+        )
           res = await fetch("/market-demo.json");
         if (!res.ok) throw new Error(String(res.status));
         const json = (await res.json()) as Market;
@@ -161,7 +248,9 @@ export function useMarket() {
       }
     };
     void tick();
-    const id = window.setInterval(tick, 1000);
+    const id = import.meta.env.PROD
+      ? undefined
+      : window.setInterval(tick, 1000);
     return () => {
       alive = false;
       window.clearInterval(id);
@@ -170,9 +259,20 @@ export function useMarket() {
   return { data, error };
 }
 
-function PersonaChip({ p, r, regionName }: { p: Persona; r?: Reaction; regionName: Map<string, string> }) {
+function PersonaChip({
+  p,
+  r,
+  regionName,
+}: {
+  p: Persona;
+  r?: Reaction;
+  regionName: Map<string, string>;
+}) {
   return (
-    <li className={`mk-chip ${r ? `is-${r.verdict}` : "is-pending"} att-${p.attitude}`} tabIndex={0}>
+    <li
+      className={`mk-chip ${r ? `is-${r.verdict}` : "is-pending"} att-${p.attitude}`}
+      tabIndex={0}
+    >
       <span className={`avatar ${toneOf(p.id)}`}>{initials(p.name)}</span>
       <span className="mk-chip-name">
         <strong>{p.name}</strong>
@@ -213,14 +313,19 @@ function PersonaChip({ p, r, regionName }: { p: Persona; r?: Reaction; regionNam
 export default function MarketPanel() {
   const { data, error } = useMarket();
   const study = data?.study ?? null;
-  const reactions = new Map((data?.reactions ?? []).map((r) => [r.personaId, r]));
+  const reactions = new Map(
+    (data?.reactions ?? []).map((r) => [r.personaId, r]),
+  );
   // A persona that changed its mind in the debate shows its final verdict.
   for (const d of data?.debate ?? []) {
     const r = reactions.get(d.personaId);
-    if (r && d.changed && d.verdict) reactions.set(d.personaId, { ...r, verdict: d.verdict });
+    if (r && d.changed && d.verdict)
+      reactions.set(d.personaId, { ...r, verdict: d.verdict });
   }
   const personas = new Map((data?.personas ?? []).map((p) => [p.id, p]));
-  const segStats = new Map((data?.stats.bySegment ?? []).map((s) => [s.segmentId, s]));
+  const segStats = new Map(
+    (data?.stats.bySegment ?? []).map((s) => [s.segmentId, s]),
+  );
   const adoption = data?.stats.adoption ?? null;
   const regionStats = data?.stats.byRegion ?? [];
   const regionName = new Map((data?.regions ?? []).map((r) => [r.id, r.name]));
@@ -229,10 +334,16 @@ export default function MarketPanel() {
     <div className="mk">
       <header className="mk-header">
         <a href="#" className="mk-logo" aria-label="Cohort home">
-          <span className="mk-mark" aria-hidden="true">▲</span> cohort<span>.</span>
+          <span className="mk-mark" aria-hidden="true">
+            ▲
+          </span>{" "}
+          cohort<span>.</span>
         </a>
         <span className="mk-pill">
-          <i aria-hidden="true" /> Cohort Master · powered by Grok Bot
+          <i aria-hidden="true" /> Cohort Master ·{" "}
+          {import.meta.env.PROD
+            ? "recorded demo snapshot"
+            : "powered by Grok Bot"}
         </span>
         {study && (
           <div className="mk-study">
@@ -251,7 +362,8 @@ export default function MarketPanel() {
         <section className="mk-empty" data-testid="panel-empty">
           <h1>Waiting for Cohort Master…</h1>
           <p>
-            Ask Grok Bot: <q>Cohort Master, test &lt;product&gt; on the Polish market</q>
+            Ask Grok Bot:{" "}
+            <q>Cohort Master, test &lt;product&gt; on the Polish market</q>
           </p>
           {error && <small>Server not reachable yet, retrying…</small>}
           {data && data.log.length > 0 && <ActivityLog log={data.log} />}
@@ -276,46 +388,77 @@ export default function MarketPanel() {
               </div>
               <div>
                 <span>Market-weighted score</span>
-                <strong>{data!.stats.weightedScore == null ? "–" : Math.round(data!.stats.weightedScore)}</strong>
+                <strong>
+                  {data!.stats.weightedScore == null
+                    ? "–"
+                    : Math.round(data!.stats.weightedScore)}
+                </strong>
               </div>
             </div>
             <div className="mk-adopt">
               <span>Weighted adoption</span>
               {adoption ? (
                 <div className="verdict-bar" aria-label="Weighted adoption">
-                  <span className="yes" style={{ width: `${adoption.yes}%` }}>{adoption.yes >= 8 ? `yes ${pct(adoption.yes)}` : ""}</span>
-                  <span className="maybe" style={{ width: `${adoption.maybe}%` }}>{adoption.maybe >= 8 ? `maybe ${pct(adoption.maybe)}` : ""}</span>
-                  <span className="no" style={{ width: `${adoption.no}%` }}>{adoption.no >= 8 ? `no ${pct(adoption.no)}` : ""}</span>
+                  <span className="yes" style={{ width: `${adoption.yes}%` }}>
+                    {adoption.yes >= 8 ? `yes ${pct(adoption.yes)}` : ""}
+                  </span>
+                  <span
+                    className="maybe"
+                    style={{ width: `${adoption.maybe}%` }}
+                  >
+                    {adoption.maybe >= 8 ? `maybe ${pct(adoption.maybe)}` : ""}
+                  </span>
+                  <span className="no" style={{ width: `${adoption.no}%` }}>
+                    {adoption.no >= 8 ? `no ${pct(adoption.no)}` : ""}
+                  </span>
                 </div>
               ) : (
                 <div className="verdict-bar mk-bar-empty" />
               )}
             </div>
 
-            {regionStats.length > 0 && <RegionalSection stats={regionStats} regions={data!.regions ?? []} />}
+            {regionStats.length > 0 && (
+              <RegionalSection
+                stats={regionStats}
+                regions={data!.regions ?? []}
+              />
+            )}
 
             <h2 className="mk-h">Market segments</h2>
             <div className="mk-segments">
               {data!.segments.map((s) => {
                 const st = segStats.get(s.id);
-                const members = data!.personas.filter((p) => p.segmentId === s.id);
+                const members = data!.personas.filter(
+                  (p) => p.segmentId === s.id,
+                );
                 return (
                   <article className="mk-seg" key={s.id}>
                     <div className="mk-seg-top">
                       <h3>{s.name}</h3>
                       <b>{pct(s.share)}</b>
                     </div>
-                    <div className="mk-share"><i style={{ width: `${Math.min(100, s.share)}%` }} /></div>
+                    <div className="mk-share">
+                      <i style={{ width: `${Math.min(100, s.share)}%` }} />
+                    </div>
                     <p className="mk-seg-desc">{s.description}</p>
                     <div className="mk-seg-stats">
-                      <span>Score {st?.score == null ? "–" : Math.round(st.score)}</span>
+                      <span>
+                        Score {st?.score == null ? "–" : Math.round(st.score)}
+                      </span>
                       <span className="verdict yes">{st?.yes ?? 0} yes</span>
-                      <span className="verdict maybe">{st?.maybe ?? 0} maybe</span>
+                      <span className="verdict maybe">
+                        {st?.maybe ?? 0} maybe
+                      </span>
                       <span className="verdict no">{st?.no ?? 0} no</span>
                     </div>
                     <ul className="mk-chips">
                       {members.map((p) => (
-                        <PersonaChip key={p.id} p={p} r={reactions.get(p.id)} regionName={regionName} />
+                        <PersonaChip
+                          key={p.id}
+                          p={p}
+                          r={reactions.get(p.id)}
+                          regionName={regionName}
+                        />
                       ))}
                     </ul>
                   </article>
@@ -332,12 +475,18 @@ export default function MarketPanel() {
                     const b = personas.get(d.replyTo);
                     return (
                       <li key={i}>
-                        <span className={`avatar ${toneOf(d.personaId)}`}>{initials(a?.name ?? "?")}</span>
+                        <span className={`avatar ${toneOf(d.personaId)}`}>
+                          {initials(a?.name ?? "?")}
+                        </span>
                         <div>
                           <strong>
                             {a?.name ?? d.personaId} ↩ {b?.name ?? d.replyTo}
                           </strong>
-                          {d.changed && <span className="mind-chip">changed mind{d.verdict ? ` → ${d.verdict}` : ""}</span>}
+                          {d.changed && (
+                            <span className="mind-chip">
+                              changed mind{d.verdict ? ` → ${d.verdict}` : ""}
+                            </span>
+                          )}
                           <p>{d.text}</p>
                         </div>
                       </li>
@@ -354,7 +503,11 @@ export default function MarketPanel() {
                 <ul className="mk-findings">
                   {data!.report.findings.slice(0, 3).map((f, i) => (
                     <li key={i}>
-                      <span className={`mk-sev sev-${f.severity.toLowerCase()}`}>{f.severity}</span>
+                      <span
+                        className={`mk-sev sev-${f.severity.toLowerCase()}`}
+                      >
+                        {f.severity}
+                      </span>
                       <div>
                         <strong>{f.title}</strong>
                         <p>{f.detail}</p>

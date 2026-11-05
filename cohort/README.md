@@ -22,15 +22,15 @@ Synthetic outputs are not measured customer behavior, real revenue forecasts, em
 
 The white-and-green palette matches the pitch at `docs/presentation/cohort/cohort-pitch-45s-en.pdf`, inspected along with its slide source:
 
-| Role | Color |
-| --- | --- |
+| Role          | Color     |
+| ------------- | --------- |
 | Primary green | `#176D67` |
-| Text | `#132335` |
-| Muted text | `#637184` |
-| Borders | `#DCE3E8` |
-| Pale green | `#EDF6F3` |
-| Surface | `#F5F7F9` |
-| Canvas | White |
+| Text          | `#132335` |
+| Muted text    | `#637184` |
+| Borders       | `#DCE3E8` |
+| Pale green    | `#EDF6F3` |
+| Surface       | `#F5F7F9` |
+| Canvas        | White     |
 
 The workspace keeps the logo in its sidebar navigation and centers the interface on tables, metrics, charts, source evidence and research activity. Typography is Geist. Layout takes inspiration from Linear; research workflows take inspiration from Auxos. UI/UX Pro Max supplied layout, focus, accessibility and streaming-feedback guidance; the supplied pitch is the authority for final colors.
 
@@ -70,3 +70,9 @@ Protocol references: [Grok automation webhook signing](https://docs.x.ai/grok/au
 ## Cohort Master (Grok Bot)
 
 Grok Bot runs as the "Cohort Master" bot (instructions: [`COHORT_MASTER.md`](./COHORT_MASTER.md)). Asked to test a product on a market, it splits the market into 8 segments, simulates adoption in all 16 Polish voivodeships, recruits and interviews 32 personas, runs a cross-segment debate and writes a go/no-go report. Each step is pushed with the `cohort` CLI (`node cohort/bin/cohort.mjs`) to `/api/market` and rendered live at `/#panel`. A recorded run (`server/seed-poland.json`) loads with `node cohort/bin/cohort.mjs load cohort/server/seed-poland.json`; static hosting shows it from `public/market-demo.json`.
+
+## Published demo and presentation
+
+The Vercel build is a static hosted demo: mock sign-in, synthetic research workflows and the recorded Cohort Master snapshot work without credentials. Native cloud operations remain local-only; the hosted connection dialog explains this and does not accept secrets.
+
+The repository-root `vercel.json` rewrites `/workspace` to the app and `/presentation` to the presentation player. The build copies the canonical [PDF](../docs/presentation/cohort/cohort-pmf-deck.pdf), [MP4](../docs/presentation/cohort/cohort-pmf-45s.mp4), poster and font into the static output. See the [root README](../README.md) for deployment and media links.

@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "cohort/**"
+      - "docs/presentation/**"
+      - "vercel.json"
       - "package*.json"
       - "playwright.config.ts"
       - ".github/workflows/cohort.yml"

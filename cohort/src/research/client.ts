@@ -24,6 +24,16 @@ export async function api<T>(path: string, body?: unknown): Promise<T> {
 }
 
 export function getConnection() {
+  if (import.meta.env.PROD) {
+    return Promise.resolve<Connection>({
+      configured: false,
+      publicUrl: "",
+      webhookConfigured: false,
+      callbackReady: false,
+      runtime: "Grok Bot",
+      source: "none",
+    });
+  }
   return api<Connection>("connection");
 }
 

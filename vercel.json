@@ -1,5 +1,11 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "cohort/dist",
-  "installCommand": "npm ci"
+  "installCommand": "npm ci",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/workspace", "destination": "/index.html" },
+    { "source": "/workspace/:path*", "destination": "/index.html" },
+    { "source": "/presentation", "destination": "/presentation/index.html" }
+  ]
 }
