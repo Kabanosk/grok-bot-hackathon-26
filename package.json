@@ -1,0 +1,17 @@
+{
+  "name": "grok-hackathon",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "cohort"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace cohort -- --host 127.0.0.1",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}
