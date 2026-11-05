@@ -8,6 +8,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Plugin } from "vite";
 import {
+  agentCount,
   createDemoReport,
   sampleProfiles,
   type Audience,
@@ -28,10 +29,6 @@ const TONES = ["amber", "sage", "rose", "stone"];
 
 type Env = Record<string, string | undefined>;
 type Emit = (event: SwarmEvent) => void;
-
-export function agentCount(participants: number): number {
-  return participants >= 96 ? 12 : participants >= 48 ? 8 : 6;
-}
 
 export function parseConfig(body: unknown): StudyConfig | null {
   if (!body || typeof body !== "object") return null;
@@ -174,15 +171,12 @@ function toReaction(raw: Record<string, unknown>, persona: Persona): Reaction {
   };
 }
 
-export function aggregate(reactions: Reaction[], participants: number) {
+export function aggregate(reactions: Reaction[]) {
   const n = Math.max(1, reactions.length);
-  const share = (v: Reaction["verdict"]) =>
-    Math.round((reactions.filter((r) => r.verdict === v).length / n) * participants);
-  const yes = share("yes");
-  const no = share("no");
+  const count = (v: Reaction["verdict"]) => reactions.filter((r) => r.verdict === v).length;
   return {
     score: Math.round(reactions.reduce((s, r) => s + r.score, 0) / n),
-    breakdown: { yes, maybe: Math.max(0, participants - yes - no), no },
+    breakdown: { yes: count("yes"), maybe: count("maybe"), no: count("no") },
   };
 }
 
@@ -247,7 +241,7 @@ async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortS
   if (reactions.length === 0) throw new Error("Every agent in the swarm failed");
 
   emit({ type: "stage", index: 2 });
-  const { score, breakdown } = aggregate(reactions, config.participants);
+  const { score, breakdown } = aggregate(reactions);
   let findings: Finding[];
   let summary = "";
   try {
@@ -332,8 +326,9 @@ const MOCK_LINES: Record<Persona["attitude"], { verdict: Reaction["verdict"]; sc
 
 const sleep = (ms: number, signal: AbortSignal) =>
   new Promise<void>((resolve) => {
-    const t = setTimeout(resolve, ms);
-    signal.addEventListener("abort", () => (clearTimeout(t), resolve()), { once: true });
+    const onAbort = () => (clearTimeout(t), resolve());
+    const t = setTimeout(() => (signal.removeEventListener("abort", onAbort), resolve()), ms);
+    signal.addEventListener("abort", onAbort, { once: true });
   });
 
 async function runMock(config: StudyConfig, emit: Emit, signal: AbortSignal): Promise<void> {
@@ -369,7 +364,7 @@ async function runMock(config: StudyConfig, emit: Emit, signal: AbortSignal): Pr
       mode: "demo",
       model: "sample data",
       agents: reactions.length,
-      breakdown: aggregate(reactions, config.participants).breakdown,
+      breakdown: aggregate(reactions).breakdown,
       voices: reactions,
     },
   });

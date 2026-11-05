@@ -35,6 +35,7 @@ import {
   Zap,
 } from "lucide-react";
 import {
+  agentCount,
   createDemoReport,
   defaultConfig,
   sampleProfiles,
@@ -86,7 +87,7 @@ function Swarm({
       className={`swarm ${compact ? "swarm-compact" : ""} ${running ? "is-running" : ""}`}
       viewBox="0 0 440 245"
       role="img"
-      aria-label="Illustration of 48 simulated customer agents connected in a swarm"
+      aria-label="Illustration of simulated customer agents connected in a swarm"
     >
       <defs>
         <radialGradient id={compact ? "glow-small" : "glow"}>
@@ -225,7 +226,7 @@ function Dashboard({
       title: "Onboarding experience",
       result: createDemoReport(defaultConfig),
       audience: "Startup founders",
-      count: 48,
+      count: 8,
     },
     {
       title: "Pricing page clarity",
@@ -236,7 +237,7 @@ function Dashboard({
         participants: 24,
       }),
       audience: "Product teams",
-      count: 24,
+      count: 6,
     },
     {
       title: "New product concept",
@@ -246,7 +247,7 @@ function Dashboard({
         audience: "Everyday consumers",
       }),
       audience: "Everyday consumers",
-      count: 48,
+      count: 8,
     },
     {
       title: "Next launch concept",
@@ -260,7 +261,7 @@ function Dashboard({
       title: `${report.config.product} — ${report.config.objective.toLowerCase()}`,
       result: report,
       audience: report.config.audience,
-      count: report.config.participants,
+      count: agentCount(report.config.participants),
     });
   const visibleStudies =
     tab === "Completed" ? studies.filter((study) => study.result) : studies;
@@ -370,11 +371,11 @@ function Dashboard({
                 </div>
                 <div className="stat">
                   <span>
-                    AI participants <Users size={13} aria-hidden="true" />
+                    Grok agents <Users size={13} aria-hidden="true" />
                   </span>
                   <div>
-                    {current.config.participants}
-                    <small>Across your audience</small>
+                    {agentCount(current.config.participants)}
+                    <small>Grok agents in the panel</small>
                   </div>
                 </div>
                 <div className="stat">
@@ -401,7 +402,7 @@ function Dashboard({
                   <div className="swarm-caption">
                     <span>{current.config.audience}</span>
                     <span>
-                      {current.config.participants} agents{" "}
+                      {agentCount(current.config.participants)} Grok agents{" "}
                       <span className="separator-dot">·</span> Sample personas
                     </span>
                   </div>
@@ -467,7 +468,7 @@ function Dashboard({
                   <span>Study</span>
                   <span>Audience</span>
                   <span>Status</span>
-                  <span>Participants</span>
+                  <span>Agents</span>
                 </div>
                 {visibleStudies.map((study, i) => (
                   <button
@@ -884,7 +885,7 @@ function Workspace({
                   <ChevronDown size={15} aria-hidden="true" />
                 </div>
                 <fieldset className="size-field">
-                  <legend>Number of AI participants</legend>
+                  <legend>Panel size (Grok agents)</legend>
                   <div className="participant-options">
                     {[24, 48, 96].map((n) => (
                       <button
@@ -896,8 +897,8 @@ function Workspace({
                           setConfig({ ...config, participants: n })
                         }
                       >
-                        {n}
-                        <span>agents</span>
+                        {agentCount(n)}
+                        <span>Grok agents</span>
                       </button>
                     ))}
                   </div>
@@ -1027,8 +1028,8 @@ function Workspace({
                   {report.config.audience}{" "}
                   <span className="separator-dot">·</span>{" "}
                   {live
-                    ? `${report.agents} Grok agents · ${report.config.participants} weighted participants`
-                    : `${report.config.participants} sample agents`}
+                    ? `${report.agents} Grok agents`
+                    : `${agentCount(report.config.participants)} sample agents`}
                 </p>
               </div>
               <div className="result-score">

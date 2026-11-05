@@ -62,6 +62,11 @@ export type SwarmEvent =
   | { type: "error"; message: string }
   | { type: "report"; report: Report };
 
+// The panel tiers are sized by real Grok agents, never by simulated headcount.
+export function agentCount(participants: number): number {
+  return participants >= 96 ? 12 : participants >= 48 ? 8 : 6;
+}
+
 export const defaultConfig: StudyConfig = {
   product: "Orbit",
   url: "https://example.com",

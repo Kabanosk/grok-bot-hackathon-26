@@ -29,7 +29,7 @@ test("configure a sample study, export its report, and update the overview", asy
     .getByLabel("What would you like to learn?")
     .selectOption("Pricing research");
   await dialog.getByLabel("Who is it for?").selectOption("Product teams");
-  await dialog.getByRole("button", { name: "96 agents" }).click();
+  await dialog.getByRole("button", { name: "12 Grok agents" }).click();
   await dialog.getByRole("button", { name: "Run sample simulation" }).click();
   await expect(
     dialog.getByRole("heading", { name: "A clearer view of Launchpad." }),
