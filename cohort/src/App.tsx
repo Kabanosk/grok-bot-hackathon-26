@@ -48,6 +48,8 @@ import {
   type SwarmEvent,
 } from "./demo";
 
+import MarketPanel from "./MarketPanel";
+
 const repoUrl = "https://github.com/Kabanosk/grok-bot-hackathon-26";
 
 function Logo({ small = false }: { small?: boolean }) {
@@ -1203,7 +1205,7 @@ function Workspace({
   );
 }
 
-function App() {
+function Landing() {
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
@@ -1240,6 +1242,9 @@ function App() {
             </a>
             <a href="#our-approach" onClick={() => setMobileNav(false)}>
               Our approach
+            </a>
+            <a href="#panel" onClick={() => setMobileNav(false)}>
+              Live market panel
             </a>
           </nav>
           <div className="header-actions">
@@ -1590,6 +1595,16 @@ function App() {
       )}
     </>
   );
+}
+
+function App() {
+  const [hash, setHash] = useState(() => window.location.hash);
+  useEffect(() => {
+    const on = () => setHash(window.location.hash);
+    window.addEventListener("hashchange", on);
+    return () => window.removeEventListener("hashchange", on);
+  }, []);
+  return hash === "#panel" ? <MarketPanel /> : <Landing />;
 }
 
 export default App;
