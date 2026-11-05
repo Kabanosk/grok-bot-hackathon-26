@@ -119,6 +119,11 @@ export default function MarketPanel() {
   const { data, error } = useMarket();
   const study = data?.study ?? null;
   const reactions = new Map((data?.reactions ?? []).map((r) => [r.personaId, r]));
+  // A persona that changed its mind in the debate shows its final verdict.
+  for (const d of data?.debate ?? []) {
+    const r = reactions.get(d.personaId);
+    if (r && d.changed && d.verdict) reactions.set(d.personaId, { ...r, verdict: d.verdict });
+  }
   const personas = new Map((data?.personas ?? []).map((p) => [p.id, p]));
   const segStats = new Map((data?.stats.bySegment ?? []).map((s) => [s.segmentId, s]));
   const adoption = data?.stats.adoption ?? null;
