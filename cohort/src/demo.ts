@@ -19,12 +19,48 @@ export type Finding = {
   detail: string;
   severity: "High" | "Medium" | "Low";
 };
+export type Persona = {
+  id: string;
+  name: string;
+  initials: string;
+  role: string;
+  context: string;
+  attitude: "enthusiast" | "pragmatist" | "skeptic";
+  tone: string;
+};
+export type Reaction = {
+  personaId: string;
+  name: string;
+  role: string;
+  initials: string;
+  tone: string;
+  verdict: "yes" | "maybe" | "no";
+  score: number;
+  quote: string;
+  concern: string;
+  delight: string;
+};
 export type Report = {
   config: StudyConfig;
   score: number;
   findings: Finding[];
   completedAt: string;
+  mode?: "live" | "demo";
+  model?: string;
+  agents?: number;
+  summary?: string;
+  breakdown?: { yes: number; maybe: number; no: number };
+  voices?: Reaction[];
 };
+export type SwarmEvent =
+  | { type: "mode"; mode: "live" | "demo"; model: string; agents: number }
+  | { type: "stage"; index: number }
+  | { type: "scout"; ok: boolean; detail: string }
+  | { type: "persona"; persona: Persona }
+  | { type: "reaction"; reaction: Reaction }
+  | { type: "warning"; message: string }
+  | { type: "error"; message: string }
+  | { type: "report"; report: Report };
 
 export const defaultConfig: StudyConfig = {
   product: "Orbit",

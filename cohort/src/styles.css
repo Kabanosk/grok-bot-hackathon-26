@@ -2779,3 +2779,118 @@ select {
     transition: none !important;
   }
 }
+
+/* Live swarm feed */
+.swarm-feed {
+  list-style: none;
+  margin: 22px auto 0;
+  padding: 0;
+  max-width: 760px;
+  max-height: 300px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  text-align: left;
+}
+.swarm-feed li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  opacity: 0.6;
+  transition: opacity 0.3s ease, border-color 0.3s ease;
+}
+.swarm-feed li.answered {
+  opacity: 1;
+  border-color: var(--border-strong);
+}
+.swarm-feed .avatar {
+  flex: none;
+}
+.swarm-feed-body {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.swarm-feed-body strong {
+  color: var(--text);
+  font-weight: 560;
+}
+.swarm-feed-body small,
+.swarm-feed-body em {
+  color: var(--muted);
+  font-weight: 400;
+  font-style: normal;
+  font-size: 11px;
+}
+.swarm-feed-body q {
+  color: #d4d9c4;
+}
+.verdict {
+  flex: none;
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  white-space: nowrap;
+}
+.verdict.yes {
+  color: var(--sage);
+}
+.verdict.maybe {
+  color: var(--accent);
+}
+.verdict.no {
+  color: #d99a8c;
+}
+.swarm-feed.voices {
+  max-height: none;
+  margin: 0 30px 20px;
+  max-width: none;
+}
+.verdict-bar {
+  display: flex;
+  margin: 0 30px 18px;
+  height: 26px;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 10px;
+}
+.verdict-bar span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--on-accent);
+  min-width: 0;
+}
+.verdict-bar .yes {
+  background: var(--sage);
+}
+.verdict-bar .maybe {
+  background: var(--accent);
+}
+.verdict-bar .no {
+  background: #d99a8c;
+}
+.running-stage .running-note + .running-note {
+  margin-top: 6px;
+}
+@media (max-width: 720px) {
+  .swarm-feed {
+    grid-template-columns: 1fr;
+  }
+  .swarm-feed.voices,
+  .verdict-bar {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}
