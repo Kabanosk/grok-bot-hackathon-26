@@ -39,8 +39,8 @@ export function Swarm({
     >
       <defs>
         <radialGradient id={compact ? "glow-small" : "glow"}>
-          <stop offset="0%" stopColor="#e8bd7c" stopOpacity=".11" />
-          <stop offset="100%" stopColor="#e8bd7c" stopOpacity="0" />
+          <stop offset="0%" stopColor="var(--accent)" stopOpacity=".11" />
+          <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
         </radialGradient>
       </defs>
       <ellipse
@@ -69,7 +69,7 @@ export function Swarm({
         <ellipse cx="220" cy="123" rx="78" ry="90" />
         <path d="M46 123h348M220 33v180" />
       </g>
-      <g className="swarm-links" stroke="#b89b70">
+      <g className="swarm-links" stroke="var(--accent)">
         {dots
           .filter((_, i) => i % 3 === 0)
           .map((d) => (
@@ -86,22 +86,28 @@ export function Swarm({
             cx={d.x}
             cy={d.y}
             r={d.size + 4}
-            fill={d.index % 5 === 0 ? "#9caf91" : "#e8bd7c"}
+            fill="var(--accent)"
             opacity=".07"
           />
           <circle
             cx={d.x}
             cy={d.y}
             r={d.size}
-            fill={d.index % 5 === 0 ? "#9caf91" : "#d8bc91"}
+            fill="var(--accent)"
             opacity={d.index % 3 === 0 ? 0.95 : 0.5}
           />
         </g>
       ))}
-      <circle cx="220" cy="123" r="23" fill="#24251f" stroke="#6b5e47" />
+      <circle
+        cx="220"
+        cy="123"
+        r="23"
+        fill="var(--surface-raised)"
+        stroke="var(--border-strong)"
+      />
       <path
         d="m220 109 12 7-12 7-12-7Zm-11 12 9 5v12l-9-5Zm22 0-9 5v12l9-5Z"
-        fill="#e8bd7c"
+        fill="var(--accent)"
       />
       {!compact && (
         <>
@@ -111,14 +117,14 @@ export function Swarm({
             width="107"
             height="29"
             rx="6"
-            fill="#22231e"
-            stroke="#3a3b31"
+            fill="var(--bg)"
+            stroke="var(--border)"
           />
-          <circle cx="308" cy="61.5" r="3" fill="#a2b896" />
+          <circle cx="308" cy="61.5" r="3" fill="var(--accent)" />
           <text
             x="318"
             y="65"
-            fill="#c3c5b9"
+            fill="var(--muted)"
             fontSize="9.5"
             fontFamily="inherit"
           >
@@ -130,14 +136,14 @@ export function Swarm({
             width="113"
             height="29"
             rx="6"
-            fill="#22231e"
-            stroke="#3a3b31"
+            fill="var(--bg)"
+            stroke="var(--border)"
           />
-          <circle cx="40" cy="184.5" r="3" fill="#e8bd7c" />
+          <circle cx="40" cy="184.5" r="3" fill="var(--accent)" />
           <text
             x="50"
             y="188"
-            fill="#c3c5b9"
+            fill="var(--muted)"
             fontSize="9.5"
             fontFamily="inherit"
           >
