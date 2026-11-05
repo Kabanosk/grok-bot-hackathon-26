@@ -4,9 +4,13 @@
 
 A product-research workspace for exploring customer populations, concepts, pricing and go-to-market decisions. Built for the Grok Bot hackathon, with a white-and-green interface matching the pitch.
 
-[![Watch the 45-second Cohort presentation](docs/presentation/cohort/assets/film-intro.png)](https://github.com/Kabanosk/grok-bot-hackathon-26/raw/refs/heads/main/docs/presentation/cohort/cohort-pmf-45s.mp4)
+**[Open the live dashboard](https://cohort-hackathon-26.vercel.app/workspace)** · **[Market panel](https://cohort-hackathon-26.vercel.app/#panel)** · **[Watch the presentation](https://cohort-hackathon-26.vercel.app/presentation)**
 
-**[Watch / download the MP4](https://github.com/Kabanosk/grok-bot-hackathon-26/raw/refs/heads/main/docs/presentation/cohort/cohort-pmf-45s.mp4)** · **[Read the presentation PDF](docs/presentation/cohort/cohort-pmf-deck.pdf)**
+Choose **Enter demo workspace**; no password is required.
+
+[![Watch the 45-second Cohort presentation](docs/presentation/cohort/assets/film-intro.png)](https://cohort-hackathon-26.vercel.app/presentation/#video)
+
+**[Watch / download the MP4](https://cohort-hackathon-26.vercel.app/presentation/cohort-pmf-45s.mp4)** · **[Read the presentation PDF](https://cohort-hackathon-26.vercel.app/presentation/cohort-pmf-deck.pdf)** · [Repository media files](docs/presentation/cohort)
 
 The 45-second presentation is an illustrative product walkthrough with music. It is not a recording of a live cloud Bot study or evidence of measured customer demand.
 
@@ -39,6 +43,8 @@ npm run build
 Node.js 22.12+ or 24+ is recommended. The build includes the presentation page, PDF, video and poster in `cohort/dist/presentation/`. The application and presentation use the same source revision.
 
 ## Vercel deployment
+
+Production project: **[cohort-hackathon-26.vercel.app](https://cohort-hackathon-26.vercel.app)**.
 
 [`vercel.json`](./vercel.json) configures installation, the monorepo build, the `cohort/dist` output directory and direct access to `/workspace` and `/presentation`.
 

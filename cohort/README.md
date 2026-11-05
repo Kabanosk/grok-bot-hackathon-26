@@ -73,6 +73,8 @@ Grok Bot runs as the "Cohort Master" bot (instructions: [`COHORT_MASTER.md`](./C
 
 ## Published demo and presentation
 
+**[Live workspace](https://cohort-hackathon-26.vercel.app/workspace)** · **[Presentation player](https://cohort-hackathon-26.vercel.app/presentation)** · **[MP4](https://cohort-hackathon-26.vercel.app/presentation/cohort-pmf-45s.mp4)** · **[PDF](https://cohort-hackathon-26.vercel.app/presentation/cohort-pmf-deck.pdf)**
+
 The Vercel build is a static hosted demo: mock sign-in, synthetic research workflows and the recorded Cohort Master snapshot work without credentials. Native cloud operations remain local-only; the hosted connection dialog explains this and does not accept secrets.
 
 The repository-root `vercel.json` rewrites `/workspace` to the app and `/presentation` to the presentation player. The build copies the canonical [PDF](../docs/presentation/cohort/cohort-pmf-deck.pdf), [MP4](../docs/presentation/cohort/cohort-pmf-45s.mp4), poster and font into the static output. See the [root README](../README.md) for deployment and media links.
