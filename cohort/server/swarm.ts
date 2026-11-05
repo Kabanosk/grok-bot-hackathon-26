@@ -43,6 +43,8 @@ export function parseConfig(body: unknown): StudyConfig | null {
     audience: b.audience as Audience,
     participants: Number(b.participants),
   };
+  const fieldNotes = str(b.fieldNotes, 3000);
+  if (fieldNotes) config.fieldNotes = fieldNotes;
   if (!config.product || !config.description) return null;
   if (!OBJECTIVES.includes(config.objective) || !AUDIENCES.includes(config.audience)) return null;
   if (!SIZES.includes(config.participants)) return null;
@@ -216,6 +218,7 @@ function applyDebate(r: Reaction, reply: Omit<Debate, "changed" | "fromVerdict" 
 async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortSignal): Promise<void> {
   const k = agentCount(config.participants);
   emit({ type: "mode", mode: "live", model: model(env), agents: k });
+  if (config.fieldNotes) emit({ type: "field", text: config.fieldNotes });
 
   emit({ type: "stage", index: 0 });
   const sitePromise = config.url ? scout(config.url, signal) : Promise.resolve(null);
@@ -287,7 +290,7 @@ async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortS
             `You are ${p.name}, ${p.role}. ${p.context} Your attitude toward new products: ${p.attitude}. ` +
               `You are in round 2 of a ${config.objective.toLowerCase()}: a panel debate. Stay in character, first person, direct. ` +
               `Reply to ONE other panelist BY NAME. You may stay firm or change your mind if their argument convinces you. Reply with JSON only.`,
-            `${productBrief(config, null)}\n\nYour round 1 answer: verdict=${r.verdict} score=${r.score}, "${r.quote}"\n\nOther panelists said:\n` +
+            `${productBrief(config, null)}\n\n${config.fieldNotes ? `A field tester actually used the product and reported: """${config.fieldNotes}"""\n\n` : ""}Your round 1 answer: verdict=${r.verdict} score=${r.score}, "${r.quote}"\n\nOther panelists said:\n` +
               peers.map((q) => `- ${q.name} (${q.role}) verdict=${q.verdict}: "${q.quote}" Concern: ${q.concern}`).join("\n") +
               `\n\nReturn {"replyTo":"exact name of the panelist you answer","text":"one or two sentences addressed to them","verdict":"yes|maybe|no (final)","score":0-100 (final)}`,
             signal,
@@ -319,7 +322,9 @@ async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortS
     const raw = await grokJson(
       env,
       "You are Cohort's lead researcher agent. You synthesize interviews from a swarm of synthetic customers into a short, actionable report for a product team. Weigh disagreement, name which personas raised each point, never invent data that is not in the interviews. Reply with JSON only.",
-      `${productBrief(config, null)}\nStudy: ${config.objective}, audience: ${config.audience}\n\nInterviews:\n` +
+      `${productBrief(config, null)}\nStudy: ${config.objective}, audience: ${config.audience}\n\n` +
+        (config.fieldNotes ? `Grok Bot field test (hands-on, real browser session) - treat as a higher-weight source than the synthetic interviews and cite it in findings where relevant:\n"""${config.fieldNotes}"""\n\n` : "") +
+        `Interviews:\n` +
         finalReactions
           .map(
             (r) =>
@@ -365,6 +370,7 @@ async function runLive(config: StudyConfig, env: Env, emit: Emit, signal: AbortS
     summary,
     breakdown,
     voices: finalReactions,
+    ...(config.fieldNotes ? { fieldNotes: config.fieldNotes } : {}),
   };
   emit({ type: "report", report });
 }
@@ -407,6 +413,7 @@ const sleep = (ms: number, signal: AbortSignal) =>
 async function runMock(config: StudyConfig, emit: Emit, signal: AbortSignal): Promise<void> {
   const k = agentCount(config.participants);
   emit({ type: "mode", mode: "demo", model: "sample data", agents: k });
+  if (config.fieldNotes) emit({ type: "field", text: config.fieldNotes });
   emit({ type: "stage", index: 0 });
   const personas = mockPersonas(config, k);
   for (const p of personas) {
@@ -463,6 +470,7 @@ async function runMock(config: StudyConfig, emit: Emit, signal: AbortSignal): Pr
       agents: finalReactions.length,
       breakdown: aggregate(finalReactions).breakdown,
       voices: finalReactions,
+      ...(config.fieldNotes ? { fieldNotes: config.fieldNotes } : {}),
     },
   });
 }

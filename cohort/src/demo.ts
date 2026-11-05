@@ -13,6 +13,7 @@ export type StudyConfig = {
   objective: Objective;
   audience: Audience;
   participants: number;
+  fieldNotes?: string;
 };
 export type Finding = {
   title: string;
@@ -60,6 +61,7 @@ export type Report = {
   summary?: string;
   breakdown?: { yes: number; maybe: number; no: number };
   voices?: Reaction[];
+  fieldNotes?: string;
 };
 export type SwarmEvent =
   | { type: "mode"; mode: "live" | "demo"; model: string; agents: number }
@@ -76,6 +78,7 @@ export type SwarmEvent =
       score: number;
       changed: boolean;
     }
+  | { type: "field"; text: string }
   | { type: "warning"; message: string }
   | { type: "error"; message: string }
   | { type: "report"; report: Report };

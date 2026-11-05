@@ -30,3 +30,13 @@ test("rejects an invalid study", async ({ request }) => {
   const res = await request.post("/api/study", { data: { ...body, participants: 7 } });
   expect(res.status()).toBe(400);
 });
+
+test("field notes from Grok Bot become a field event and a report field", async ({ request }) => {
+  test.skip(!!process.env.XAI_API_KEY, "mock-mode check");
+  const notes = "Tried signup; stuck on the pricing page. Would use: maybe.";
+  const res = await request.post("/api/study", { data: { ...body, fieldNotes: notes } });
+  expect(res.ok()).toBe(true);
+  const events = (await res.text()).trim().split("\n").map((l) => JSON.parse(l));
+  expect(events.find((e) => e.type === "field").text).toBe(notes);
+  expect(events.find((e) => e.type === "report").report.fieldNotes).toBe(notes);
+});

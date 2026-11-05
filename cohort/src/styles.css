@@ -2898,3 +2898,35 @@ select {
 .debate-reply { display: block; margin-top: 6px; padding-left: 10px; border-left: 2px solid var(--line, #d9cdb8); font-size: 0.86em; line-height: 1.45; color: inherit; opacity: 0.9; }
 .debate-reply b { font-weight: 600; margin-right: 4px; }
 .mind-chip { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: #f3dfb4; color: #5a3d0a; font-size: 0.78em; font-weight: 600; white-space: nowrap; }
+
+/* Grok Bot field test */
+.field-card {
+  max-width: 760px;
+  margin: 18px auto 0;
+  padding: 12px 14px;
+  border: 1px solid #1d1d1d;
+  border-left-width: 4px;
+  border-radius: 8px;
+  background: #f6f6f3;
+  text-align: left;
+}
+.field-card strong {
+  display: block;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+}
+.field-card p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+.copy-brief {
+  margin-top: 8px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}

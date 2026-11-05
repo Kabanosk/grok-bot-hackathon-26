@@ -585,6 +585,15 @@ const runningSteps = [
   "Synthesizing findings",
 ];
 
+function FieldCard({ text, excerpt = false }: { text: string; excerpt?: boolean }) {
+  return (
+    <aside className="field-card" aria-label="Grok Bot field test">
+      <strong>Grok Bot · field tester (used the live product)</strong>
+      <p>{excerpt && text.length > 280 ? `${text.slice(0, 280)}…` : text}</p>
+    </aside>
+  );
+}
+
 function Workspace({
   onClose,
   onComplete,
@@ -616,6 +625,8 @@ function Workspace({
   >({});
   const [notes, setNotes] = useState<string[]>([]);
   const [run, setRun] = useState<{ mode: "live" | "demo"; model: string; agents: number } | null>(null);
+  const [fieldText, setFieldText] = useState("");
+  const [copied, setCopied] = useState(false);
   const productInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -643,6 +654,7 @@ function Workspace({
         setPersonas((list) => [...list, event.persona]);
       else if (event.type === "reaction")
         setReactions((list) => [...list, event.reaction]);
+      else if (event.type === "field") setFieldText(event.text);
       else if (event.type === "debate")
         setDebates((d) => ({ ...d, [event.personaId]: event }));
       else if (event.type === "scout" || event.type === "warning")
@@ -689,7 +701,7 @@ function Workspace({
           await new Promise((r) => window.setTimeout(r, 500));
           if (controller.signal.aborted) return;
         }
-        finish({ ...createDemoReport(config), mode: "demo" });
+        finish({ ...createDemoReport(config), mode: "demo", ...(config.fieldNotes ? { fieldNotes: config.fieldNotes } : {}) });
       }
     })();
     return () => controller.abort();
@@ -733,6 +745,26 @@ function Workspace({
   }
 
   const live = report?.mode === "live";
+
+  function copyBrief() {
+    const goal = {
+      "Usability test":
+        "complete the main task the product promises and note every point of confusion",
+      "Concept validation":
+        "judge whether it solves a real problem you would have today",
+      "Pricing research":
+        "find the pricing and say what you would expect to pay and why",
+    }[config.objective];
+    const brief =
+      `Open ${config.url || config.product}. Act as a first-time user from this audience: ${config.audience.toLowerCase()}. ` +
+      `Try to ${goal}. Spend 5 minutes. Report: what you tried, where you got stuck, what you liked, ` +
+      `would you use it (yes/maybe/no), in under 200 words.`;
+    const done = () => {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    };
+    navigator.clipboard?.writeText(brief).then(done, done);
+  }
 
   function downloadReport() {
     if (!report) return;
@@ -860,6 +892,22 @@ function Workspace({
                   </select>
                   <ChevronDown size={15} aria-hidden="true" />
                 </div>
+                <label htmlFor="field-notes">
+                  Field notes from Grok Bot <span>Optional</span>
+                </label>
+                <textarea
+                  id="field-notes"
+                  rows={3}
+                  value={config.fieldNotes ?? ""}
+                  maxLength={3000}
+                  onChange={(e) =>
+                    setConfig({ ...config, fieldNotes: e.target.value })
+                  }
+                  placeholder="Give Grok Bot the brief, let it use your product, paste its notes here."
+                />
+                <button type="button" className="copy-brief" onClick={copyBrief}>
+                  {copied ? "Copied" : "Copy brief for Grok Bot"}
+                </button>
               </div>
               <div className="setup-audience">
                 <div className="setup-audience-heading">
@@ -975,6 +1023,7 @@ function Workspace({
                 </div>
               ))}
             </div>
+            {fieldText && <FieldCard text={fieldText} excerpt />}
             {personas.length > 0 && (
               <ul className="swarm-feed" aria-label="Swarm participants">
                 {personas.map((p) => {
@@ -1103,6 +1152,7 @@ function Workspace({
                 </article>
               ))}
             </div>
+            {report.fieldNotes && <FieldCard text={report.fieldNotes} />}
             {report.voices && report.voices.length > 0 && (
               <>
                 <h3 className="findings-title">
