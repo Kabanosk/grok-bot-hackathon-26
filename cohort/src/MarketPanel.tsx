@@ -12,6 +12,20 @@ type Persona = {
   role: string;
   context: string;
   attitude: "enthusiast" | "pragmatist" | "skeptic";
+  region?: string;
+};
+type Region = { id: string; name: string; population: number; share: number; capital: string; urbanization?: number };
+type RegionStat = {
+  regionId: string;
+  name: string;
+  share: number;
+  population: number;
+  yes: number;
+  maybe: number;
+  no: number;
+  score: number | null;
+  buyers: number;
+  personas: number;
 };
 type Reaction = { personaId: string; verdict: Verdict; score: number; quote: string; concern: string; wtp?: string };
 type Debate = { personaId: string; replyTo: string; text: string; changed: boolean; verdict?: Verdict };
@@ -19,6 +33,7 @@ type Finding = { title: string; detail: string; severity: "High" | "Medium" | "L
 type Market = {
   study: { product: string; market: string; description: string; objective: string; createdAt: string } | null;
   segments: Segment[];
+  regions?: Region[];
   personas: Persona[];
   reactions: Reaction[];
   debate: Debate[];
@@ -29,6 +44,7 @@ type Market = {
     answered: number;
     weightedScore: number | null;
     adoption: { yes: number; maybe: number; no: number } | null;
+    byRegion?: RegionStat[];
     bySegment: { segmentId: string; score: number | null; yes: number; maybe: number; no: number }[];
   };
 };
@@ -47,6 +63,81 @@ const time = (iso: string) => {
   return Number.isNaN(d.getTime()) ? "" : d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 };
 const pct = (n: number) => `${Math.round(n)}%`;
+
+// Tile map of Poland: [row, col] on a 5x4 grid.
+const TILE_POS: Record<string, [number, number]> = {
+  zachodniopomorskie: [1, 1], pomorskie: [1, 2], "warminsko-mazurskie": [1, 3], podlaskie: [1, 4],
+  lubuskie: [2, 1], "kujawsko-pomorskie": [2, 2], mazowieckie: [2, 3],
+  wielkopolskie: [3, 1], lodzkie: [3, 2], swietokrzyskie: [3, 3], lubelskie: [3, 4],
+  dolnoslaskie: [4, 1], opolskie: [4, 2], slaskie: [4, 3], malopolskie: [4, 4],
+  podkarpackie: [5, 4],
+};
+const money = (n: number) => `${n.toFixed(1)}M`;
+
+function RegionalSection({ stats, regions }: { stats: RegionStat[]; regions: Region[] }) {
+  const info = new Map(regions.map((r) => [r.id, r]));
+  const top = [...stats].sort((a, b) => b.buyers - a.buyers).slice(0, 5);
+  const maxBuyers = Math.max(0.0001, ...top.map((r) => r.buyers));
+  const lo = Math.min(...stats.map((r) => r.yes));
+  const hi = Math.max(...stats.map((r) => r.yes));
+  return (
+    <section className="mk-regions" data-testid="regions">
+      <h2 className="mk-h">Regional simulation · 16 voivodeships</h2>
+      <div className="mk-reg-wrap">
+        <ul className="mk-tilemap" aria-label="Adoption by voivodeship">
+          {stats.map((r) => {
+            const pos = TILE_POS[r.regionId];
+            const t = hi > lo ? (r.yes - lo) / (hi - lo) : 0.5;
+            const alpha = (0.2 + t * 0.6).toFixed(2);
+            const hue = t >= 0.66 ? "161,181,138" : t >= 0.33 ? "212,165,116" : "217,154,140";
+            return (
+              <li
+                key={r.regionId}
+                className={`mk-tile${pos?.[1] === 4 ? " is-right" : ""}`}
+                tabIndex={0}
+                style={{ gridRow: pos?.[0], gridColumn: pos?.[1], background: `rgba(${hue},${alpha})` }}
+              >
+                <b>{r.name}</b>
+                <span>{pct(r.yes)} yes</span>
+                <small>{money(r.buyers)} buyers</small>
+                <div className="mk-pop" role="tooltip">
+                  <b>{r.name}</b>
+                  <p>
+                    <em>Population:</em> {money(r.population)}
+                    {info.get(r.regionId) ? ` · capital ${info.get(r.regionId)!.capital}` : ""}
+                  </p>
+                  {info.get(r.regionId)?.urbanization != null && (
+                    <p>
+                      <em>Urbanization:</em> {pct(info.get(r.regionId)!.urbanization!)}
+                    </p>
+                  )}
+                  <p>
+                    <em>Adoption:</em> yes {pct(r.yes)} · maybe {pct(r.maybe)} · no {pct(r.no)}
+                  </p>
+                  <p>
+                    <em>Score:</em> {r.score == null ? "–" : Math.round(r.score)} · <em>Personas:</em> {r.personas}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="mk-launch">
+          <h3>Where to launch first</h3>
+          <ol>
+            {top.map((r) => (
+              <li key={r.regionId}>
+                <span className="mk-launch-name">{r.name}</span>
+                <b>{money(r.buyers)}</b>
+                <div className="mk-share"><i style={{ width: `${(r.buyers / maxBuyers) * 100}%` }} /></div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export function useMarket() {
   const [data, setData] = useState<Market | null>(null);
@@ -76,7 +167,7 @@ export function useMarket() {
   return { data, error };
 }
 
-function PersonaChip({ p, r }: { p: Persona; r?: Reaction }) {
+function PersonaChip({ p, r, regionName }: { p: Persona; r?: Reaction; regionName: Map<string, string> }) {
   return (
     <li className={`mk-chip ${r ? `is-${r.verdict}` : "is-pending"} att-${p.attitude}`} tabIndex={0}>
       <span className={`avatar ${toneOf(p.id)}`}>{initials(p.name)}</span>
@@ -90,6 +181,7 @@ function PersonaChip({ p, r }: { p: Persona; r?: Reaction }) {
       <div className="mk-pop" role="tooltip">
         <b>
           {p.role} · {p.attitude}
+          {p.region ? ` · ${regionName.get(p.region) ?? p.region}` : ""}
         </b>
         <p className="mk-ctx">{p.context}</p>
         {r ? (
@@ -127,6 +219,8 @@ export default function MarketPanel() {
   const personas = new Map((data?.personas ?? []).map((p) => [p.id, p]));
   const segStats = new Map((data?.stats.bySegment ?? []).map((s) => [s.segmentId, s]));
   const adoption = data?.stats.adoption ?? null;
+  const regionStats = data?.stats.byRegion ?? [];
+  const regionName = new Map((data?.regions ?? []).map((r) => [r.id, r.name]));
 
   return (
     <div className="mk">
@@ -195,6 +289,8 @@ export default function MarketPanel() {
               )}
             </div>
 
+            {regionStats.length > 0 && <RegionalSection stats={regionStats} regions={data!.regions ?? []} />}
+
             <h2 className="mk-h">Market segments</h2>
             <div className="mk-segments">
               {data!.segments.map((s) => {
@@ -216,7 +312,7 @@ export default function MarketPanel() {
                     </div>
                     <ul className="mk-chips">
                       {members.map((p) => (
-                        <PersonaChip key={p.id} p={p} r={reactions.get(p.id)} />
+                        <PersonaChip key={p.id} p={p} r={reactions.get(p.id)} regionName={regionName} />
                       ))}
                     </ul>
                   </article>
